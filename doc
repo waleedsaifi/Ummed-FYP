@@ -1,0 +1,19 @@
+npm install express
+npm install nodemon
+npm install mongoose
+npm install dotenv
+npm install body-parser (Postman sy jo b post krty hain tw express usy directly read nahi kr skta)
+body-parser 1 middleware hai 
+app.use(bodyParser.json())
+
+npm install morgan (for showing more info on console)
+
+
+npm i mongoose-mongodb-errors (It helps to read the mongodb errors.
+ Used in MONGO.JS )
+
+ npm i express-async-errors (to overcome the usage of "async await" in routes.
+ Is k liye b 1 middleware bnana pry ga saary routes is sy ho kr guzryn gy)
+
+ npm install multer
+ npm install cloudinary
