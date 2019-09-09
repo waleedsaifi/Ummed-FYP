@@ -10,7 +10,7 @@ const signup_schema = mongoose.Schema({
     contact:String,
     // address:String,
     imageurl:String,
-    joiningDate :{type: Date, default: Date.now("<YYYY-mm-ddTHH:MM:ssZ>") }
+    joiningDate :{type: Date, default: Date.now }
 
 
 })
