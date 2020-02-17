@@ -6,7 +6,7 @@ const Signup = mongoose.model("Signup");
 router.post("/", async(req, res)=>{
     const email = req.body.email;
     const password = req.body.password;
-    // res.send(email+password)
+    // res.send(email+password) 
     // console.log(email);
     // console.log(password);
 
