@@ -82,16 +82,19 @@ router.delete("/:signupId", async(req, res)=>{
 
 
 router.post("/", async(req, res)=>{
-
+  
     const info = new Signup();
-    const person = await Signup.find({
-        email:req.params.email,
-        cnic:req.params.cnic
-    });
+    // var person = await info.find({
+    //     email:req.params.email,
+    //     // cnic:req.params.cnic
+    // });
+    // console.log(person)
+    // res.send(person);
+    // if(person){
+    //     res.send("This email is already registered");
+    // }
+    // else{
 
-    if(person){
-        res.send("This email is already registered");
-    }else{
     info.cnic = req.body.cnic;
     info.age = req.body.age;
     info.name = req.body.name;
@@ -99,10 +102,11 @@ router.post("/", async(req, res)=>{
     info.password = req.body.password;
     info.gender =req.body.gender;
     info.contact = req.body.contact;
+    info.userRole = req.body.userRole;
     // info.address = req.body.address;
     info.save();
     res.send(info);
-    }
+    //  }
     })
 
 
