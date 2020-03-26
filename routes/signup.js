@@ -30,8 +30,8 @@ const upload = multer({
 })
 
 router.post("/" , upload.single('personImage'), (req, res, next)=>{
-
-    console.log(req.file);
+    // router.post("/" ,  async(req, res)=>{
+    //  console.log("Hello");
     const info = new Signup();
     info.cnic = req.body.cnic;
     info.age = req.body.age;
@@ -41,8 +41,9 @@ router.post("/" , upload.single('personImage'), (req, res, next)=>{
     info.gender =req.body.gender;
     info.contact = req.body.contact;
     info.userRole = req.body.userRole;
-    info.personImage = req.file.path;  
-    info.save();
+    // console.log(req.body);
+    // info.personImage = req.file.path;  
+    // info.save();
     res.send(info);
 
 })
@@ -102,17 +103,7 @@ router.delete("/:signupId", async(req, res)=>{
 // router.post("/", async(req, res)=>{
   
 //     const info = new Signup();
-//     // var person = await info.find({
-//     //     email:req.params.email,
-//     //     // cnic:req.params.cnic
-//     // });
-//     // console.log(person)
-//     // res.send(person);
-//     // if(person){
-//     //     res.send("This email is already registered");
-//     // }
-//     // else{
-
+//     console.log(req.body);
 //     info.cnic = req.body.cnic;
 //     info.age = req.body.age;
 //     info.name = req.body.name;
@@ -122,9 +113,8 @@ router.delete("/:signupId", async(req, res)=>{
 //     info.contact = req.body.contact;
 //     info.userRole = req.body.userRole;
 //     // info.address = req.body.address;
-//     info.save();
+//     // info.save();
 //     res.send(info);
-//     //  }
 //     })
 
 
