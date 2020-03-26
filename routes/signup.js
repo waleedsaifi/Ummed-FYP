@@ -29,9 +29,9 @@ const upload = multer({
     fileFilter: fileFilter
 })
 
-router.post("/" , upload.single('personImage'), (req, res, next)=>{
-    // router.post("/" ,  async(req, res)=>{
-    //  console.log("Hello");
+// router.post("/" , upload.single('personImage'), (req, res, next)=>{
+    router.post("/" ,  async(req, res)=>{
+     console.log("Hello");
     const info = new Signup();
     info.cnic = req.body.cnic;
     info.age = req.body.age;
@@ -41,10 +41,10 @@ router.post("/" , upload.single('personImage'), (req, res, next)=>{
     info.gender =req.body.gender;
     info.contact = req.body.contact;
     info.userRole = req.body.userRole;
-    // console.log(req.body);
+    console.log(req.body);
     // info.personImage = req.file.path;  
     info.save();
-    res.send(info);
+    res.send("Record Inserted => "+ info);
 
 })
 
