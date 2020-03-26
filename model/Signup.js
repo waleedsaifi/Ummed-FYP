@@ -11,7 +11,7 @@ const signup_schema = mongoose.Schema({
     contact:String,
     userRole:String,
     // address:String,
-    personImage:String,
+    // personImage:String,
     // joiningDate :{type: Date, default: Date.now }
 
 
