@@ -43,7 +43,7 @@ router.post("/" , upload.single('personImage'), (req, res, next)=>{
     info.userRole = req.body.userRole;
     // console.log(req.body);
     // info.personImage = req.file.path;  
-    // info.save();
+    info.save();
     res.send(info);
 
 })
