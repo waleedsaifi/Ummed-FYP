@@ -5,13 +5,13 @@ const signup_schema = mongoose.Schema({
     cnic:String,
     age:Number,
     name:String,
-    email:  {type: String },
+    email:  {type: String, required: true },
     password:String,
     gender:Number,
     contact:String,
     userRole:String,
     // address:String,
-    // imageurl:String,
+    personImage:String,
     // joiningDate :{type: Date, default: Date.now }
 
 

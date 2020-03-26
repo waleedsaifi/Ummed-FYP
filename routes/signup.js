@@ -29,6 +29,24 @@ const upload = multer({
     fileFilter: fileFilter
 })
 
+router.post("/" , upload.single('personImage'), (req, res, next)=>{
+
+    console.log(req.file);
+    const info = new Signup();
+    info.cnic = req.body.cnic;
+    info.age = req.body.age;
+    info.name = req.body.name;
+    info.email = req.body.email;
+    info.password = req.body.password;
+    info.gender =req.body.gender;
+    info.contact = req.body.contact;
+    info.userRole = req.body.userRole;
+    info.personImage = req.file.path;  
+    info.save();
+    res.send(info);
+
+})
+
 
 router.get("/", async(req, res)=>{
     const person = await Signup.find({});
@@ -81,33 +99,33 @@ router.delete("/:signupId", async(req, res)=>{
 //     })
 
 
-router.post("/", async(req, res)=>{
+// router.post("/", async(req, res)=>{
   
-    const info = new Signup();
-    // var person = await info.find({
-    //     email:req.params.email,
-    //     // cnic:req.params.cnic
-    // });
-    // console.log(person)
-    // res.send(person);
-    // if(person){
-    //     res.send("This email is already registered");
-    // }
-    // else{
+//     const info = new Signup();
+//     // var person = await info.find({
+//     //     email:req.params.email,
+//     //     // cnic:req.params.cnic
+//     // });
+//     // console.log(person)
+//     // res.send(person);
+//     // if(person){
+//     //     res.send("This email is already registered");
+//     // }
+//     // else{
 
-    info.cnic = req.body.cnic;
-    info.age = req.body.age;
-    info.name = req.body.name;
-    info.email = req.body.email;
-    info.password = req.body.password;
-    info.gender =req.body.gender;
-    info.contact = req.body.contact;
-    info.userRole = req.body.userRole;
-    // info.address = req.body.address;
-    info.save();
-    res.send(info);
-    //  }
-    })
+//     info.cnic = req.body.cnic;
+//     info.age = req.body.age;
+//     info.name = req.body.name;
+//     info.email = req.body.email;
+//     info.password = req.body.password;
+//     info.gender =req.body.gender;
+//     info.contact = req.body.contact;
+//     info.userRole = req.body.userRole;
+//     // info.address = req.body.address;
+//     info.save();
+//     res.send(info);
+//     //  }
+//     })
 
 
 module.exports = router;

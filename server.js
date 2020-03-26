@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-
+const cors = require('cors');
 const server = require("http").createServer(app);
 const io = require("socket.io").listen(server);
 // const upload = require('./handlers/multer')
@@ -13,11 +13,14 @@ io.on("connection" , socket => {
     socket.on("chat message" , msg =>{
         console.log(msg);
         io.emit("chat message" , msg);
-    })
+    })   
 } )
 //MiddleWare
 app.use(bodyParser.json());
 app.use(morgan())
+app.use('/uploads', express.static('uploads'));
+app.use(cors());
+
 
 //DataBase Connection
 require("./mongo");
