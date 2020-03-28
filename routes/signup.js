@@ -46,7 +46,7 @@ const upload = multer({
     info.save();
     res.send("Record Inserted => "+ info);
 
-})
+})    
 
 
 router.get("/", async(req, res)=>{
