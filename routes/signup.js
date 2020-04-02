@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Signup = mongoose.model("Signup");
 const multer = require('multer');
 const cloudinary = require('cloudinary')
+const db = mongoose.connection;
 
 
 require('../handlers/cloudinary');
@@ -31,7 +32,7 @@ const upload = multer({
 
 // router.post("/" , upload.single('personImage'), (req, res, next)=>{
     router.post("/" ,  async(req, res)=>{
-     console.log("Hello");
+    //  console.log("Hello");
     const info = new Signup();
     info.cnic = req.body.cnic;
     info.age = req.body.age;
@@ -44,9 +45,24 @@ const upload = multer({
     // console.log(req.body);
     // info.personImage = req.file.path;  
     info.save();
-    res.send("Record Inserted => "+ info);
+    res.send("Registered Successfully => "+ info);
+    // if(info.userRole == 'Patient'){
+    //     console.log("Patient Request");
+    //     // info.save();
+    //     db.collection("PatientSignup").insertOne(info);
+        
+    // }
+    // else if(info.userRole == 'Psychologist'){  
+    //     console.log("Psychologist Request");
+    //     db.collection("PsychologistSignup").insertOne(info.save());
+    //     res.send("Psychologist Registered Successfully => "+ info);
+    // }
 
-})    
+    
+    // info.collection("pateint").insertOne()
+    // res.send("Patient Registered Successfully => "+ info);
+
+}) 
 
 
 router.get("/", async(req, res)=>{

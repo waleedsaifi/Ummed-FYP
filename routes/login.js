@@ -14,7 +14,7 @@ router.post("/", async(req, res)=>{
 
         if(!result){
             res.send({
-                error : "UserNot Found"
+                error : "User Not Found"
             })
         }
         else{

@@ -31,7 +31,7 @@ require("./model/Signup");
 //Routes
 app.use("/signup", require("./routes/signup"));
 app.use("/login", require("./routes/login"));
-
+app.use("/getAccount", require("./routes/getAccount")); 
 
 
 
