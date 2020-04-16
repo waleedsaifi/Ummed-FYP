@@ -2,99 +2,100 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const Signup = mongoose.model("Signup");
 const multer = require('multer');
-const cloudinary = require('cloudinary')
+const bcrypt = require("bcrypt");
+
+const cloudinary = require('cloudinary');
 const db = mongoose.connection;
+// const upload = multer({dest: 'uploads/'});
 
-
-require('../handlers/cloudinary');
+// require('../handlers/cloudinary');
 const storage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null,'./uploads/');
+    destination: function (req, file, cb) {
+        cb(null, './uploads/');
     },
-    filename: function(req, file, cb){
+    filename: function (req, file, cb) {
         cb(null, new Date().toISOString() + file.originalname);
     }
-}); 
+});
 
-const fileFilter = (req, file, cb) =>{
-    if(!file.mimetype.match(/jpe|jpeg|png|gif$i/)){
+const fileFilter = (req, file, cb) => {
+    if (!file.mimetype.match(/jpe|jpeg|png|gif$i/)) {
 
-    cb(new Error('File is not supported'),false)
-     return
-    }else cb(null, true)
+        cb(new Error('File is not supported'), false)
+        return
+    } else cb(null, true)
 }
+
 
 const upload = multer({
     storage: storage,
-    limits:{fileSize: 1024 * 1024 * 5},
+    limits: { fileSize: 1024 * 1024 * 5 },
     fileFilter: fileFilter
 })
+//  var type =  upload.single('image');
+router.post("/", upload.single('personImage'), async (req, res, next) => {
 
-// router.post("/" , upload.single('personImage'), (req, res, next)=>{
-    router.post("/" ,  async(req, res)=>{
-    //  console.log("Hello");
+    const person = await Signup.findOne({
+        email: req.body.email
+    });
+    if (person) return res.status(400).send("This Email Address already registered");
+
     const info = new Signup();
+
+    if (req.file) {
+        console.log("File attached");
+        info.personImage = req.file.path;
+    }
+    console.log("file not attached");
     info.cnic = req.body.cnic;
     info.age = req.body.age;
     info.name = req.body.name;
     info.email = req.body.email;
     info.password = req.body.password;
-    info.gender =req.body.gender;
+    info.gender = req.body.gender;
     info.contact = req.body.contact;
     info.userRole = req.body.userRole;
-    // console.log(req.body);
-    // info.personImage = req.file.path;  
+
+    const hash = await bcrypt.hashSync(info.password, 10);
+    info.password = hash;
+
+
     info.save();
-    res.send("Registered Successfully => "+ info);
-    // if(info.userRole == 'Patient'){
-    //     console.log("Patient Request");
-    //     // info.save();
-    //     db.collection("PatientSignup").insertOne(info);
-        
-    // }
-    // else if(info.userRole == 'Psychologist'){  
-    //     console.log("Psychologist Request");
-    //     db.collection("PsychologistSignup").insertOne(info.save());
-    //     res.send("Psychologist Registered Successfully => "+ info);
-    // }
+    res.send("Registered Successfully => " + info);
 
-    
-    // info.collection("pateint").insertOne()
-    // res.send("Patient Registered Successfully => "+ info);
-
-}) 
+})
 
 
-router.get("/", async(req, res)=>{
+router.get("/", async (req, res) => {
     const person = await Signup.find({});
     res.send(person)
-    })
-    
-router.get("/:signupId",async (req,res)=>{
-    const person = await Signup.findOne({_id:req.params.signupId})
+})
+
+router.get("/:signupId", async (req, res) => {
+    const person = await Signup.findOne({ _id: req.params.signupId })
     res.send(person);
-    })
-    
-    
-router.put("/:signupId", async (req, res)=>{
+})
+
+
+router.put("/:signupId", async (req, res) => {
     const person = await Signup.findOneAndUpdate({
-        _id:req.params.signupId
+        _id: req.params.signupId
     },
-    req.body,
-    {
-        new: true,
-        runValidators: true
-    })
+        req.body,
+        {
+            new: true,
+            runValidators: true
+        })
     res.send(person);
-    })
-    
-router.delete("/:signupId", async(req, res)=>{
+})
+
+router.delete("/:signupId", async (req, res) => {
     const person = await Signup.findByIdAndRemove({
-        _id:req.params.signupId
+        _id: req.params.signupId
     });
-        res.send(person);
-    })
-    
+    res.send(person);
+})
+
 // router.post("/", upload.single('personImage'), async(req, res)=>{
 //     const cloudImage= await cloudinary.v2.uploader.upload(req.file.path);
 //     // res.send(cloudImage);
@@ -117,7 +118,7 @@ router.delete("/:signupId", async(req, res)=>{
 
 
 // router.post("/", async(req, res)=>{
-  
+
 //     const info = new Signup();
 //     console.log(req.body);
 //     info.cnic = req.body.cnic;

@@ -1,28 +1,33 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const Signup = mongoose.model("Signup");
+const bcrypt = require("bcrypt");
 
 
-router.post("/", async(req, res)=>{
-    const email = req.body.email;
+// router.post("/", async(req, res)=>{
+//     const email = req.body.email;
+//     const password = req.body.password;
+//     Signup.findOne({email: email, password: password},function(err, result){
+//         if(!result){
+//             res.send({error : "User Not Found"})}
+//         else{res.send(result)}})})
+
+
+    router.post("/", async(req, res)=>{
     const password = req.body.password;
-    // res.send(email+password) 
-    // console.log(email);
-    // console.log(password);
-
-    Signup.findOne({email: email, password: password},function(err, result){
-
-        if(!result){
-            res.send({
-                error : "User Not Found"
-            })
-        }
-        else{
-            res.send(result)
-        }
+    const person = await Signup.findOne({
+        email: req.body.email
+    }); 
+    if (!person) return res.status(400).send("No account registered against the inserted Email Address");
+    else
+    bcrypt.compare(password,person.password, function(err, isMatch) {
+        if (err) {
+            throw err
+          } else if (!isMatch) {
+            res.send("Incorrect Email Or Password");
+          } else {
+            res.send(person)
+          }
+        })
     })
-
-    })
-
-
     module.exports = router;
