@@ -29,6 +29,7 @@ require("./mongo");
 require("./model/Signup");
 require("./model/Complaints");
 require("./model/Feedback");
+require("./model/ProgressReport");
 
 
 //Routes
@@ -37,6 +38,7 @@ app.use("/login", require("./routes/login"));
 app.use("/getAccount", require("./routes/getAccount"));
 app.use("/complaints", require("./routes/complaints")); 
 app.use("/feedback", require("./routes/feedback")); 
+app.use("/progressReport", require("./routes/progressReport"));
 
 
 
