@@ -33,7 +33,8 @@ const upload = multer({
     fileFilter: fileFilter
 })
 //  var type =  upload.single('image');
-router.post("/", upload.single('personImage'), async (req, res, next) => {
+// router.post("/", upload.single('personImage'), async (req, res, next) => {
+    router.post("/", async (req, res, next) => {
 
     const person = await Signup.findOne({
         email: req.body.email
@@ -41,17 +42,19 @@ router.post("/", upload.single('personImage'), async (req, res, next) => {
     if (person) return res.status(400).send("This Email Address already registered");
 
     const info = new Signup();
+    info._id = mongoose.Types.ObjectId();
 
-    if (req.file) {
-        console.log("File attached");
-        info.personImage = req.file.path;
-    }
-    console.log("file not attached");
+    // if (req.file) {
+    //     console.log("File attached");
+    //     info.personImage = req.file.path;
+    // }
+    // console.log("file not attached");
     info.cnic = req.body.cnic;
     info.age = req.body.age;
     info.name = req.body.name;
     info.email = req.body.email;
     info.password = req.body.password;
+    info.personImage = req.body.personImage;
     info.gender = req.body.gender;
     info.contact = req.body.contact;
     info.userRole = req.body.userRole;

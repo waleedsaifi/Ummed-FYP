@@ -27,11 +27,16 @@ require("./mongo");
 
 //Models
 require("./model/Signup");
+require("./model/Complaints");
+require("./model/Feedback");
+
 
 //Routes
 app.use("/signup", require("./routes/signup"));
 app.use("/login", require("./routes/login"));
-app.use("/getAccount", require("./routes/getAccount")); 
+app.use("/getAccount", require("./routes/getAccount"));
+app.use("/complaints", require("./routes/complaints")); 
+app.use("/feedback", require("./routes/feedback")); 
 
 
 
