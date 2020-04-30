@@ -58,13 +58,21 @@ const upload = multer({
     info.gender = req.body.gender;
     info.contact = req.body.contact;
     info.userRole = req.body.userRole;
-
+    // console.log(info.password);
     const hash = await bcrypt.hashSync(info.password, 10);
     info.password = hash;
-
-
-    info.save();
-    res.send("Registered Successfully => " + info);
+    info.save()
+    .then(result => {
+        res.status(201).json(
+            { "Registered Successfully ": result });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    });
+    // res.send("Registered Successfully => " + info);
 
 })
 
