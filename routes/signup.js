@@ -34,7 +34,7 @@ const upload = multer({
 })
 //  var type =  upload.single('image');
 // router.post("/", upload.single('personImage'), async (req, res, next) => {
-    router.post("/", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
 
     const person = await Signup.findOne({
         email: req.body.email
@@ -62,16 +62,16 @@ const upload = multer({
     const hash = await bcrypt.hashSync(info.password, 10);
     info.password = hash;
     info.save()
-    .then(result => {
-        res.status(201).json(
-            { "Registered Successfully ": result });
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            error: err
+        .then(result => {
+            res.status(201).json(
+                { "Registered Successfully ": result });
         })
-    });
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        });
     // res.send("Registered Successfully => " + info);
 
 })

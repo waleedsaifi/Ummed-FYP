@@ -30,6 +30,7 @@ require("./model/Signup");
 require("./model/Complaints");
 require("./model/Feedback");
 require("./model/ProgressReport");
+require("./model/MotivationalBlogs");
 
 
 //Routes
@@ -39,6 +40,7 @@ app.use("/getAccount", require("./routes/getAccount"));
 app.use("/complaints", require("./routes/complaints")); 
 app.use("/feedback", require("./routes/feedback")); 
 app.use("/progressReport", require("./routes/progressReport"));
+app.use("/motivationalblogs", require("./routes/motivationalBlogs"));
 
 
 
