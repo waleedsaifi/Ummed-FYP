@@ -31,6 +31,7 @@ require("./model/Complaints");
 require("./model/Feedback");
 require("./model/ProgressReport");
 require("./model/MotivationalBlogs");
+require("./model/HealthExercises");
 
 
 //Routes
@@ -41,6 +42,7 @@ app.use("/complaints", require("./routes/complaints"));
 app.use("/feedback", require("./routes/feedback")); 
 app.use("/progressReport", require("./routes/progressReport"));
 app.use("/motivationalblogs", require("./routes/motivationalBlogs"));
+app.use("/healthexercises", require("./routes/healthExercises"));
 
 
 

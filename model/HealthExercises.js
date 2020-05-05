@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const motivationalBlog_schema = mongoose.Schema({
+const healthExercise_schema = mongoose.Schema({
 
     uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Signup' },
     title: String,
@@ -10,4 +10,4 @@ const motivationalBlog_schema = mongoose.Schema({
     dislike:{type: Number, default: 0},
     comments:{type: [String] , default: null} 
 })
-module.exports = mongoose.model("MotivationalBlogs", motivationalBlog_schema);
+module.exports = mongoose.model("HealthExercises", healthExercise_schema);

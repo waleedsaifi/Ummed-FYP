@@ -9,6 +9,7 @@ router.post("/:bloggerId", async (req, res, next) => {
     blog.title = req.body.title;
     blog.content = req.body.content;
     blog.status = req.body.status;
+
     blog.save()
         .then(result => {
             res.status(201).json(
@@ -24,7 +25,7 @@ router.post("/:bloggerId", async (req, res, next) => {
 
 router.get("/approved", async (req, res) => {
     MotivationalBlogs.find({ status: "approved" })
-        .populate('uploadedBy', 'name')
+        .populate('uploadedBy', 'name personImage')
         .exec()
         .then(docs => {
             res.status(200).json(docs)
@@ -39,7 +40,7 @@ router.get("/approved", async (req, res) => {
 
 router.get("/pending", async (req, res) => {
     MotivationalBlogs.find({ status: "pending" })
-        .populate('uploadedBy', 'name')
+        .populate('uploadedBy', 'name personImage')
         .exec()
         .then(docs => {
             res.status(200).json(docs)
@@ -72,5 +73,25 @@ router.delete("/pending/:blogId", async (req, res) => {
     res.send({ "Blog Deleted Successfully": deleteBlog });
 })
 
+// router.post("/comments/:bloggerId", async (req, res, next) => {
+//     const blog = new MotivationalBlogs();
+//     blog._id = mongoose.Types.ObjectId();
+//     blog.uploadedBy = req.params.bloggerId;
+//     blog.title = req.body.title;
+//     blog.content = req.body.content;
+//     blog.status = req.body.status;
+
+//     blog.save()
+//         .then(result => {
+//             res.status(201).json(
+//                 { "Your Blog will be uploaded after admin's verification": result });
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             })
+//         });
+// })
 
 module.exports = router;
