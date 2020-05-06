@@ -1,0 +1,88 @@
+for submitting the complain
+Method: POST
+address: https://desolate-wave-36898.herokuapp.com/complaints/patientId
+Note: You have to pass the Id of the patient
+example:https://desolate-wave-36898.herokuapp.com/complaints/5ea1f434fb7cb5001756e007 
+--------------
+for getting all the registered compaints
+Method: GET
+address: https://desolate-wave-36898.herokuapp.com/complaints
+-----------------------------------------------------------------------
+
+for submitting the feedback
+Method: POST
+address: https://desolate-wave-36898.herokuapp.com/feedback/patientId/psychologistId
+Note: You have to pass the Id of the patient and the psychologist
+example: https://desolate-wave-36898.herokuapp.com/feedback/5e9947ba2b065800174c32c3/5e9948aa2b065800174c32c4
+-----------------
+for getting all the feedback
+Method: GET
+address: https://desolate-wave-36898.herokuapp.com/feedback
+-------------------------------------------------------------------
+
+for submitting the report of the specific patient
+Method: POST
+address: https://desolate-wave-36898.herokuapp.com/progressReport/patientId/psychologistId
+Note: You have to pass the Id of the patient and the psychologist
+example: https://desolate-wave-36898.herokuapp.com/progressReport/5ea1f6cffb7cb5001756e008/5e98d72d42479e00171c2947
+--------------------
+for getting all the Reports
+Method: GET
+address: https://desolate-wave-36898.herokuapp.com/progressReport
+-----------------------------------------------------------------------
+
+For uploading the Motivational Blogs(with status = pending)
+Method: POST
+Address:https://desolate-wave-36898.herokuapp.com/motivationalBlogs/bloggerId 
+Note: You have to pass the Id of the Motivational Blogger in the URL
+example:https://desolate-wave-36898.herokuapp.com/motivationalBlogs/5eab3c0f7422ad001752d4e8
+--------------------------------
+for getting all the blogs with status= pending
+Method:GET
+Address: https://desolate-wave-36898.herokuapp.com/motivationalBlogs/pending
+----------------------------------
+for updating the blog status from pending to approved
+Method: PUT
+address: https://desolate-wave-36898.herokuapp.com/motivationalBlogs/pending/blogId
+Note: You have to pass the Id of the Blog in the URL
+example: https://desolate-wave-36898.herokuapp.com/motivationalBlogs/pending/5eadcd37072da200176a3d7e
+-------------------------------------
+for deleting/rejecting the blog
+Method: Delete
+Address:https://desolate-wave-36898.herokuapp.com/motivationalBlogs/pending/blogId
+Note: You have to pass the Id of the Blog in the URL
+example:https://desolate-wave-36898.herokuapp.com/motivationalBlogs/pending/5eadcd37072da200176a3d7e
+------------------------------------
+for getting all the blogs with status= approved
+Method:GET
+Address: https://desolate-wave-36898.herokuapp.com/motivationalBlogs/approved
+-----------------------------------------------------------------------------------------
+
+
+
+For uploading the Daily Health Exercise(with status = pending)
+Method: POST
+Address:https://desolate-wave-36898.herokuapp.com/healthexercises/instructorId 
+Note: You have to pass the Id of the Gym Instructor in the URL
+example:https://desolate-wave-36898.herokuapp.com/healthexercises/5eab3c0f7422ad001752d4e8
+--------------------------------------
+for getting all the exercises with status= pending
+Method:GET
+Address: https://desolate-wave-36898.herokuapp.com/healthexercises/pending
+--------------------------------
+for updating the daily exercise status from pending to approved
+Method: PUT
+address: https://desolate-wave-36898.herokuapp.com/healthexercises/pending/exerciseId
+Note: You have to pass the Id of the exercise in the URL
+example: https://desolate-wave-36898.herokuapp.com/healthexercises/pending/5eadcd37072da200176a3d7e
+-----------------------------
+for deleting/rejecting the Exercise
+Method: Delete
+Address:https://desolate-wave-36898.herokuapp.com/healthexercises/pending/exerciseId
+Note: You have to pass the Id of the Exercise in the URL
+example:https://desolate-wave-36898.herokuapp.com/healthexercises/pending/5eadcd37072da200176a3d7e
+-------------------------------
+for getting all the exercises with status= approved
+Method:GET
+Address: https://desolate-wave-36898.herokuapp.com/healthexercises/approved
+--------------------------------------------------------------------------------------------------
