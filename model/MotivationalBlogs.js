@@ -8,6 +8,6 @@ const motivationalBlog_schema = mongoose.Schema({
     status: String,
     likes: {type: Number, default: 0},
     dislike:{type: Number, default: 0},
-    comments:{type: [String] , default: null} 
+    // comments:{type: [String] , default: null} 
 })
 module.exports = mongoose.model("MotivationalBlogs", motivationalBlog_schema);
