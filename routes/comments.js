@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const Comments = mongoose.model("Comments");
+const MotivationalBlogs = mongoose.model("MotivationalBlogs");
 
 
 router.post("/:personId/:blogId", async (req, res, next) => {
@@ -23,7 +24,6 @@ router.post("/:personId/:blogId", async (req, res, next) => {
         });
 })
 
- 
 router.get("/", async (req, res) => {
     Comments.find()
         .populate('givenBy', 'name')
@@ -39,5 +39,24 @@ router.get("/", async (req, res) => {
             })
         })
 })
+router.get("/:postId", async (req, res) => {
+    var id = req.params.postId
+    await Comments.find({onPost:{_id: id} })
+    .populate('givenBy', 'name')
+    .populate('onPost', 'uploadedBy title')
+    .exec()
+        .then(docs => {
+            res.status(200).json(docs)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        })
+})
+
+
+
 
 module.exports = router;
