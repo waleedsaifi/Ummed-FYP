@@ -4,36 +4,6 @@ const Signup = mongoose.model("Signup");
 const multer = require('multer');
 const bcrypt = require("bcrypt");
 
-const cloudinary = require('cloudinary');
-const db = mongoose.connection;
-// const upload = multer({dest: 'uploads/'});
-
-// require('../handlers/cloudinary');
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, new Date().toISOString() + file.originalname);
-    }
-});
-
-const fileFilter = (req, file, cb) => {
-    if (!file.mimetype.match(/jpe|jpeg|png|gif$i/)) {
-
-        cb(new Error('File is not supported'), false)
-        return
-    } else cb(null, true)
-}
-
-
-const upload = multer({
-    storage: storage,
-    limits: { fileSize: 1024 * 1024 * 5 },
-    fileFilter: fileFilter
-})
-//  var type =  upload.single('image');
-// router.post("/", upload.single('personImage'), async (req, res, next) => {
 router.post("/", async (req, res, next) => {
 
     const person = await Signup.findOne({
@@ -43,12 +13,6 @@ router.post("/", async (req, res, next) => {
 
     const info = new Signup();
     info._id = mongoose.Types.ObjectId();
-
-    // if (req.file) {
-    //     console.log("File attached");
-    //     info.personImage = req.file.path;
-    // }
-    // console.log("file not attached");
     info.cnic = req.body.cnic;
     info.age = req.body.age;
     info.name = req.body.name;
@@ -59,6 +23,53 @@ router.post("/", async (req, res, next) => {
     info.contact = req.body.contact;
     info.userRole = req.body.userRole;
     // console.log(info.password);
+
+    info.portfolioLink = req.body.portfolioLink;
+    info.twitterLink = req.body.twitterLink;
+    info.facebookLink = req.body.facebookLink;
+    info.linkedInLink = req.body.linkedInLink;
+    info.instagramLink = req.body.instagramLink;
+
+
+    //PsychplogistFields
+    info.areaOfSpeciality = req.body.areaOfSpeciality
+    info.weekdaysTimingFrom = req.body.weekdaysTimingFrom
+    info.weekdaysTimingTill = req.body.weekdaysTimingTill
+    info.weekendTimingFrom = req.body.weekendTimingFrom
+    info.weekendTimingTill = req.body.weekendTimingTill
+
+    info.currentWorkPlace = req.body.currentWorkPlace
+    info.currentWorkPlacePosition = req.body.currentWorkPlacePosition
+    info.currentlyWorkingFrom = req.body.currentlyWorkingFrom
+    info.currentJobDescription = req.body.currentJobDescription
+
+    info.workPlace1 = req.body.workPlace1
+    info.workPlace1Position = req.body.workPlace1Position
+    info.workPlace1Duration = req.body.workPlace1Duration
+    info.workedFrom1 = req.body.workedFrom1
+    info.workedTill1 = req.body.workedTill1
+    info.workedDescription1 = req.body.workedDescription1
+
+    info.institute1Name = req.body.institute1Name
+    info.session1From = req.body.session1From
+    info.session1Till = req.body.session1Till
+    info.degree1Title = req.body.degree1Title
+    info.degree1 = req.body.degree1
+
+    info.institute2Name = req.body.institute2Name
+    info.session2From = req.body.session2From
+    info.session2Till = req.body.session2Till
+    info.degree2Title = req.body.degree2Title
+    info.degree2 = req.body.degree2
+
+    info.institute3Name = req.body.institute3Name
+    info.session3From = req.body.session3From
+    info.session3Till = req.body.session3Till
+    info.degree3Title = req.body.degree3Title
+    info.degree3 = req.body.degree3
+
+
+
     const hash = await bcrypt.hashSync(info.password, 10);
     info.password = hash;
     info.save()
@@ -107,43 +118,6 @@ router.delete("/:signupId", async (req, res) => {
     res.send(person);
 })
 
-// router.post("/", upload.single('personImage'), async(req, res)=>{
-//     const cloudImage= await cloudinary.v2.uploader.upload(req.file.path);
-//     // res.send(cloudImage);
-//     // console.log(req.file);
-//     const info = new Signup();
-//     info.cnic = req.body.cnic;
-//     info.age = req.body.age;
-//     info.name = req.body.name;
-//     info.email = req.body.email;
-//     info.password = req.body.password;
-//     info.gender =req.body.gender;
-//     info.contact = req.body.contact;
-//     info.address = req.body.address;
-//     info.imageurl = cloudImage.secure_url
-
-//         // console.log(info.body)
-//     info.save();
-//     res.send(info);
-//     })
-
-
-// router.post("/", async(req, res)=>{
-
-//     const info = new Signup();
-//     console.log(req.body);
-//     info.cnic = req.body.cnic;
-//     info.age = req.body.age;
-//     info.name = req.body.name;
-//     info.email = req.body.email;
-//     info.password = req.body.password;
-//     info.gender =req.body.gender;
-//     info.contact = req.body.contact;
-//     info.userRole = req.body.userRole;
-//     // info.address = req.body.address;
-//     // info.save();
-//     res.send(info);
-//     })
 
 
 module.exports = router;
