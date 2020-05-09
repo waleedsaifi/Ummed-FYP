@@ -48,7 +48,7 @@ router.post("/", async (req, res, next) => {
     info.workPlace1Duration = req.body.workPlace1Duration
     info.workedFrom1 = req.body.workedFrom1
     info.workedTill1 = req.body.workedTill1
-    info.workedDescription1 = req.body.workedDescription1
+    info.workDescription1 = req.body.workDescription1
 
     info.institute1Name = req.body.institute1Name
     info.session1From = req.body.session1From

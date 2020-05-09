@@ -36,7 +36,7 @@ const signup_schema = mongoose.Schema({
     workPlace1Duration: String,
     workedFrom1: String,
     workedTill1: String,
-    workedDescription1: String,
+    workDescription1: String,
 
     institute1Name: String,
     session1From: String,
