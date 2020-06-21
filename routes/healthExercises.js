@@ -73,4 +73,40 @@ router.delete("/pending/:exerciseId", async (req, res) => {
     res.send({ "Blog Deleted Successfully": deleteExercise });
 })
 
+router.put("/like/:exerciseId/:personId", async (req, res) => {
+    var id = req.params.exerciseId;
+    HealthExercises.findOneAndUpdate(
+        {_id: id},
+        { $push: { likes: req.params.personId } },
+        { new: true,})
+        .exec()
+        .then(docs => {
+            res.status(200).json(docs)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        })
+})
+
+router.put("/dislike/:exerciseId/:personId", async (req, res) => {
+    var id = req.params.exerciseId;
+    HealthExercises.findOneAndUpdate(
+        {_id: id},
+        { $push: { dislikes: req.params.personId } },
+        { new: true,})
+        .exec()
+        .then(docs => {
+            res.status(200).json(docs)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        })
+})
+
 module.exports = router;

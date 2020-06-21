@@ -6,8 +6,8 @@ const healthExercise_schema = mongoose.Schema({
     title: String,
     content: String,
     status: String,
-    likes: {type: Number, default: 0},
-    dislike:{type: Number, default: 0},
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Signup' }],
+    dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Signup' }],
     comments:{type: [String] , default: null} 
 })
 module.exports = mongoose.model("HealthExercises", healthExercise_schema);
