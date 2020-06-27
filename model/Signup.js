@@ -11,6 +11,10 @@ const signup_schema = mongoose.Schema({
     contact: String,
     userRole: String,
     personImage: String,
+    accountStatus: String,
+
+    //Gym Instructor 
+    workExperience: String,
 
     //Links
     portfolioLink: String,

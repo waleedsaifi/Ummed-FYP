@@ -48,6 +48,7 @@ app.use("/motivationalblogs", require("./routes/motivationalBlogs"));
 app.use("/healthexercises", require("./routes/healthExercises"));
 app.use("/motivationalvideos", require("./routes/motivationalVideos"));
 app.use("/comments", require("./routes/comments"));
+app.use("/pendingAccounts", require("./routes/pendingAccounts"));
 
 
 

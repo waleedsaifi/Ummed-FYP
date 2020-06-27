@@ -22,6 +22,7 @@ router.post("/", async (req, res, next) => {
     info.gender = req.body.gender;
     info.contact = req.body.contact;
     info.userRole = req.body.userRole;
+    info.accountStatus = req.body.accountStatus
     // console.log(info.password);
 
     info.portfolioLink = req.body.portfolioLink;
@@ -75,7 +76,7 @@ router.post("/", async (req, res, next) => {
     info.save()
         .then(result => {
             res.status(201).json(
-                { "Registered Successfully ": result });
+                { "Account will be approved after Admin's verification ": result });
         })
         .catch(err => {
             console.log(err);
