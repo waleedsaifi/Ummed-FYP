@@ -25,6 +25,8 @@ router.post("/", async (req, res, next) => {
     info.accountStatus = req.body.accountStatus
     // console.log(info.password);
 
+    info.workExperience = req.body.workExperience;
+
     info.portfolioLink = req.body.portfolioLink;
     info.twitterLink = req.body.twitterLink;
     info.facebookLink = req.body.facebookLink;
