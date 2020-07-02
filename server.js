@@ -34,6 +34,7 @@ require("./model/MotivationalBlogs");
 require("./model/HealthExercises");
 require("./model/Comments");
 require("./model/MotivationalVideos");
+require("./model/MakePayment");
 
 
 

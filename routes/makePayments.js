@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
-const MakePayments = mongoose.model("MakePayments");
+const MakePayment = mongoose.model("MakePayment");
 
 router.post("/:psychologistId", async (req, res, next) => {
     const payment = new MakePayments();
