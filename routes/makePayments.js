@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
-const MakePayment = mongoose.model("MakePayment");
+const MakePayments = mongoose.model("MakePayment");
 
 router.post("/:psychologistId", async (req, res, next) => {
     const payment = new MakePayments();
@@ -34,7 +34,7 @@ router.post("/:psychologistId", async (req, res, next) => {
 })
 
 router.get("/approved", async (req, res) => {
-    MakePayments.find({ status: "approved" })
+    MakePayments.find({ paymentStatus: "approved" })
         .populate('psychologistId', 'name personImage')
         .exec()
         .then(docs => {
@@ -49,7 +49,7 @@ router.get("/approved", async (req, res) => {
 })
 
 router.get("/pending", async (req, res) => {
-    MakePayments.find({ status: "pending" })
+    MakePayments.find({ paymentStatus: "pending" })
         .populate('psychologistId', 'name personImage')
         .exec()
         .then(docs => {
@@ -68,7 +68,7 @@ router.put("/pending/:paymentId", async (req, res) => {
     const updatestatus = await MakePayments.findOneAndUpdate({
         _id: id
     },
-        { status: "approved" },
+        { paymentStatus: "approved" },
         {
             new: true,
             // runValidators: true
