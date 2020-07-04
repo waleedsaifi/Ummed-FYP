@@ -16,11 +16,19 @@ router.post("/:psychologistId", async (req, res, next) => {
     payment.sessionDate = req.body.sessionDate;
     payment.sessionTiming = req.body.sessionTiming;
     payment.paymentScreenShotProof = req.body.paymentScreenShotProof;
+    payment.patientId = req.body.patientId;
     payment.paymentStatus = "pending"
 
 
+//    const check = MakePayments.find({ 
+//         sessionDate: '2020-08-12'
+//     })
+//     if(check){
+//         res.status(400).send(`Psychologist have already session on Date: ${sessionDate} Time:${sessionTiming}`);
+//     }
+//     else{
 
-    payment.save()
+        payment.save()
         .then(result => {
             res.status(201).json(
                 { "Payment will be verified by administration": result });
@@ -31,11 +39,15 @@ router.post("/:psychologistId", async (req, res, next) => {
                 error: err
             })
         });
+    // }
+
 })
+    
 
 router.get("/approved", async (req, res) => {
     MakePayments.find({ paymentStatus: "approved" })
         .populate('psychologistId', 'name personImage')
+        .populate('patientId', 'name personImage')
         .exec()
         .then(docs => {
             res.status(200).json(docs)
@@ -51,6 +63,7 @@ router.get("/approved", async (req, res) => {
 router.get("/pending", async (req, res) => {
     MakePayments.find({ paymentStatus: "pending" })
         .populate('psychologistId', 'name personImage')
+        .populate('patientId', 'name personImage')
         .exec()
         .then(docs => {
             res.status(200).json(docs)

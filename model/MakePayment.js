@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const payment_schema = mongoose.Schema({
     psychologistId: { type: mongoose.Schema.Types.ObjectId, ref: 'Signup' },
+    patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Signup' },
     paymentMethod: String,
     accountTitle: String,
     accountNo: String,
