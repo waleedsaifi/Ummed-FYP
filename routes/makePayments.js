@@ -1,48 +1,68 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const MakePayments = mongoose.model("MakePayment");
+const PsychologistsBookSlots = mongoose.model("PsychologistsBookSlots");
 
 router.post("/:psychologistId", async (req, res, next) => {
-    const payment = new MakePayments();
-    payment._id = mongoose.Types.ObjectId();
-    payment.psychologistId = req.params.psychologistId;
-    payment.paymentMethod = req.body.paymentMethod;
-    payment.accountTitle = req.body.accountTitle;
-    payment.accountNo = req.body.accountNo;
-    payment.serviceType = req.body.serviceType;
-    payment.amount = req.body.amount;
-    payment.paymentDate = req.body.paymentDate;
-    payment.paymentTime = req.body.paymentTime;
-    payment.sessionDate = req.body.sessionDate;
-    payment.sessionTiming = req.body.sessionTiming;
-    payment.paymentScreenShotProof = req.body.paymentScreenShotProof;
-    payment.patientId = req.body.patientId;
-    payment.paymentStatus = "pending"
 
+    const { psychologistId, sessionDate, sessionTiming, paymentMethod, accountTitle, accountNo, serviceType, amount, paymentDate, paymentTime, paymentScreenShotProof, patientId } = req.body;
+    const timeslot = sessionTiming.slice(0, 2);
+    console.log(timeslot, 'time slot');
+    const BookSlotNewDay = new PsychologistsBookSlots();
+    BookSlotNewDay.psychologistId = psychologistId
+    BookSlotNewDay.sessionDate = sessionDate
+    BookSlotNewDay.sessionTiming.push(timeslot)
+    // BookSlotNewDay.save()
 
-//    const check = MakePayments.find({ 
-//         sessionDate: '2020-08-12'
-//     })
-//     if(check){
-//         res.status(400).send(`Psychologist have already session on Date: ${sessionDate} Time:${sessionTiming}`);
-//     }
-//     else{
+    PsychologistsBookSlots.find({
+        sessionDate: sessionDate,
+        sessionTiming: timeslot,
+        psychologistId: psychologistId,
+    }).exec(function (err, docs) {
+        if (docs.length) {
+            res.send(docs[0].sessionTiming)
+        }
+        else {
+            const update = PsychologistsBookSlots.findOneAndUpdate(
+                {
+                    sessionDate: sessionDate,
+                    psychologistId: psychologistId,
+                },
+                { $push: { sessionTiming: timeslot } },
+                { new: true, })
+                .exec()
+            const payment = new MakePayments();
+            payment._id = mongoose.Types.ObjectId();
+            payment.psychologistId = psychologistId;
+            payment.paymentMethod = paymentMethod;
+            payment.accountTitle = accountTitle;
+            payment.accountNo = accountNo;
+            payment.serviceType = serviceType;
+            payment.amount = amount;
+            payment.paymentDate = paymentDate;
+            payment.paymentTime = paymentTime;
+            payment.sessionDate = sessionDate;
+            payment.sessionTiming = sessionTiming;
+            payment.paymentScreenShotProof = paymentScreenShotProof;
+            payment.patientId = patientId;
+            payment.paymentStatus = "pending"
+            payment.save()
 
-        payment.save()
-        .then(result => {
-            res.status(201).json(
-                { "Payment will be verified by administration": result });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        });
-    // }
+                .then(result => {
+                    res.status(201).json(
+                        { "Payment will be verified by administration": result });
+                })
 
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+        }
+    })
 })
-    
+
 
 router.get("/approved", async (req, res) => {
     MakePayments.find({ paymentStatus: "approved" })

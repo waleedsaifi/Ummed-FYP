@@ -35,6 +35,9 @@ require("./model/HealthExercises");
 require("./model/Comments");
 require("./model/MotivationalVideos");
 require("./model/MakePayment");
+require("./model/PsychologistsBookSlots");
+
+
 
 
 

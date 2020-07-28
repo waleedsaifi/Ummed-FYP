@@ -22,6 +22,7 @@ router.post("/", async (req, res) => {
   if (!person) return res.status(400).send("No account registered against the inserted Email Address");
 
   if (person.accountStatus == "pending") return res.send("Your account will be approved after Admin's Verification");
+  if (person.accountStatus == "Blocked") return res.send("Your account will be approved after Admin's Verification");
 
   else
     bcrypt.compare(password, person.password, function (err, isMatch) {
