@@ -10,9 +10,14 @@ router.post("/:psychologistId", async (req, res, next) => {
         console.log('Count is ' + c);
         const complaint = new Complaints();
         complaint._id = mongoose.Types.ObjectId();
-        complaint.submittedBy = req.body.patientId;
+       
         complaint.submittedAgainst = req.params.psychologistId;
-        complaint.complaint = req.body.complaint;
+
+        
+        complaint.submittedBy = req.body.patientId;
+        complaint.complaintText = req.body.complaintText;
+        complaint.complaintProof = req.body.complaintProof;
+
         complaint.previousComplaintsCount= c;  
         complaint.save()
             .then(result => {
