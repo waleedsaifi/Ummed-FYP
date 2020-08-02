@@ -4,6 +4,36 @@ const e = require('express');
 const MakePayments = mongoose.model("MakePayment");
 const PsychologistsBookSlots = mongoose.model("PsychologistsBookSlots");
 
+router.post("/checkSlots/:psychologistId", async (req, res, next) => {
+
+     PsychologistsBookSlots.find({
+        sessionDate: req.body.sessionDate,
+        psychologistId: req.params.psychologistId,
+    }).exec(function (err, docs) {
+
+        if (docs.length) {
+            res.send(docs[0].sessionTiming)
+        }
+        else{
+            res.send("All slots available")
+        }
+
+        // if (docs.length) {
+        //     PsychologistsBookSlots.find({
+        //         sessionDate: sessionDate,
+        //         sessionTiming: timeslot,
+        //         psychologistId: psychologistId,
+        //     }).exec(function (err, docs) {
+        //         if (docs.length) {
+        //             res.send(docs[0].sessionTiming)
+        //         }
+        //     })
+
+        // }
+    })
+})
+
+
 router.post("/:psychologistId", async (req, res, next) => {
 
     const {sessionDate, sessionTiming, paymentMethod, accountTitle, accountNo, serviceType, amount, paymentDate, paymentTime, paymentScreenShotProof, patientId } = req.body;
