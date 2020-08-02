@@ -36,6 +36,7 @@ require("./model/Comments");
 require("./model/MotivationalVideos");
 require("./model/MakePayment");
 require("./model/PsychologistsBookSlots");
+require("./model/Patient/WriteSuccessStory");
 
 
 
@@ -54,6 +55,7 @@ app.use("/motivationalvideos", require("./routes/motivationalVideos"));
 app.use("/comments", require("./routes/comments"));
 app.use("/pendingAccounts", require("./routes/pendingAccounts"));
 app.use("/makePayment", require("./routes/makePayments"));
+app.use("/writeSuccessStory", require("./routes/Patient/writeSuccessStory"));
 
 
 

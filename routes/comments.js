@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const Comments = mongoose.model("Comments");
 const MotivationalBlogs = mongoose.model("MotivationalBlogs");
 
-
 router.post("/:personId/:blogId", async (req, res, next) => {
     // console.log("hello From Feedabck")
     const comments = new Comments();

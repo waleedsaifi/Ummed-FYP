@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const Signup = mongoose.model("Signup");
+const Complaints = mongoose.model("Complaints");
 
 
 
@@ -30,8 +31,6 @@ router.get("/Instructors", async (req, res) => {
     res.send(person)
 })
 
-
-
 router.put("/blockAccount/:accountId", async (req, res) => {
     var id = req.params.accountId;
     const updatestatus = await Signup.findOneAndUpdate({
@@ -58,8 +57,9 @@ router.put("/unblockAccount/:accountId", async (req, res) => {
 })
 
 router.get("/blockedAccounts", async (req, res) => {
-    const person = await Signup.find({accountStatus: "blocked" });
+    const person = await Signup.find({ accountStatus: "blocked" });
     res.send(person)
 })
+
 
 module.exports = router;

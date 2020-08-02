@@ -13,6 +13,6 @@ const payment_schema = mongoose.Schema({
     sessionDate: String,
     sessionTiming: String,
     paymentScreenShotProof: String,
-    paymentStatus: String
+    paymentStatus: {type:String, default: "pending"}
 })
 module.exports = mongoose.model("MakePayment", payment_schema);

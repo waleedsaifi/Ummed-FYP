@@ -1,66 +1,87 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
+const e = require('express');
 const MakePayments = mongoose.model("MakePayment");
 const PsychologistsBookSlots = mongoose.model("PsychologistsBookSlots");
 
 router.post("/:psychologistId", async (req, res, next) => {
 
-    const { psychologistId, sessionDate, sessionTiming, paymentMethod, accountTitle, accountNo, serviceType, amount, paymentDate, paymentTime, paymentScreenShotProof, patientId } = req.body;
+    const {sessionDate, sessionTiming, paymentMethod, accountTitle, accountNo, serviceType, amount, paymentDate, paymentTime, paymentScreenShotProof, patientId } = req.body;
+    const psychologistId =req.params.psychologistId;
     const timeslot = sessionTiming.slice(0, 2);
     console.log(timeslot, 'time slot');
     const BookSlotNewDay = new PsychologistsBookSlots();
     BookSlotNewDay.psychologistId = psychologistId
     BookSlotNewDay.sessionDate = sessionDate
     BookSlotNewDay.sessionTiming.push(timeslot)
-    // BookSlotNewDay.save()
 
-    PsychologistsBookSlots.find({
+    const payment = new MakePayments();
+    payment._id = mongoose.Types.ObjectId();
+    payment.psychologistId = psychologistId;
+    payment.paymentMethod = paymentMethod;
+    payment.accountTitle = accountTitle;
+    payment.accountNo = accountNo;
+    payment.serviceType = serviceType;
+    payment.amount = amount;
+    payment.paymentDate = paymentDate;
+    payment.paymentTime = paymentTime;
+    payment.sessionDate = sessionDate;
+    payment.sessionTiming = sessionTiming;
+    payment.paymentScreenShotProof = paymentScreenShotProof;
+    payment.patientId = patientId;
+
+    const searchDay = PsychologistsBookSlots.find({
         sessionDate: sessionDate,
-        sessionTiming: timeslot,
         psychologistId: psychologistId,
     }).exec(function (err, docs) {
         if (docs.length) {
-            res.send(docs[0].sessionTiming)
+            PsychologistsBookSlots.find({
+                sessionDate: sessionDate,
+                sessionTiming: timeslot,
+                psychologistId: psychologistId,
+            }).exec(function (err, docs) {
+                if (docs.length) {
+                    res.send(docs[0].sessionTiming)
+                }
+                else {
+                    PsychologistsBookSlots.findOneAndUpdate(
+                        {
+                            sessionDate: sessionDate,
+                            psychologistId: psychologistId,
+                        },
+                        { $push: { sessionTiming: timeslot } },
+                        { new: true, })
+                        .exec()
+                    payment.save()
+                        .then(result => {
+                            res.status(201).json(
+                                { "Payment will be verified by administration": result });
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            })
+                        })
+                }
+            })
         }
         else {
-            const update = PsychologistsBookSlots.findOneAndUpdate(
-                {
-                    sessionDate: sessionDate,
-                    psychologistId: psychologistId,
-                },
-                { $push: { sessionTiming: timeslot } },
-                { new: true, })
-                .exec()
-            const payment = new MakePayments();
-            payment._id = mongoose.Types.ObjectId();
-            payment.psychologistId = psychologistId;
-            payment.paymentMethod = paymentMethod;
-            payment.accountTitle = accountTitle;
-            payment.accountNo = accountNo;
-            payment.serviceType = serviceType;
-            payment.amount = amount;
-            payment.paymentDate = paymentDate;
-            payment.paymentTime = paymentTime;
-            payment.sessionDate = sessionDate;
-            payment.sessionTiming = sessionTiming;
-            payment.paymentScreenShotProof = paymentScreenShotProof;
-            payment.patientId = patientId;
-            payment.paymentStatus = "pending"
+            BookSlotNewDay.save()
             payment.save()
-
                 .then(result => {
                     res.status(201).json(
                         { "Payment will be verified by administration": result });
                 })
 
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
-                    })
-                })
         }
     })
+
+
+
+
+
+
 })
 
 
