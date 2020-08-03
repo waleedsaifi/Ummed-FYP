@@ -4,7 +4,7 @@
   "description": "Trying to make APIs for Umeed",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",

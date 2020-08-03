@@ -37,6 +37,8 @@ require("./model/MotivationalVideos");
 require("./model/MakePayment");
 require("./model/PsychologistsBookSlots");
 require("./model/Patient/WriteSuccessStory");
+require("./model/CreateSessions");
+
 
 
 
