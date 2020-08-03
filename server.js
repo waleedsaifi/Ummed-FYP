@@ -58,6 +58,7 @@ app.use("/comments", require("./routes/comments"));
 app.use("/pendingAccounts", require("./routes/pendingAccounts"));
 app.use("/makePayment", require("./routes/makePayments"));
 app.use("/writeSuccessStory", require("./routes/Patient/writeSuccessStory"));
+app.use("/getPsychologistList", require("./routes/Patient/pychologistsList"));
 
 
 

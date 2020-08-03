@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const e = require('express');
 const MakePayments = mongoose.model("MakePayment");
 const PsychologistsBookSlots = mongoose.model("PsychologistsBookSlots");
-const createSession = mongoose.model("CreateSessions");
+const CreateSession = mongoose.model("CreateSessions");
 
-router.post("/checkSlots/:psychologistId", async (req, res, next) => {
+router.post("/checkslots/:psychologistId", async (req, res, next) => {
 
     PsychologistsBookSlots.find({
         sessionDate: req.body.sessionDate,
@@ -135,12 +135,19 @@ router.put("/pending/:paymentId", async (req, res) => {
         _id: id
     },
         { paymentStatus: "approved" },
-        {    new: true,})
+        { new: true, })
 
+    const createSession = new CreateSession();
+    createSession._id = mongoose.Types.ObjectId();
+    createSession.psychologistId = updatestatus.psychologistId;
+    createSession.patientId = updatestatus.patientId;
+    createSession.paymentId = updatestatus._id;
 
-
-   
-    res.send({ "Payment has been approved": updatestatus });
+    createSession.save()
+        .then(result => {
+            res.status(201).json(
+                { "Session has been created": result });
+        })
 })
 
 router.delete("/pending/:paymentId", async (req, res) => {
