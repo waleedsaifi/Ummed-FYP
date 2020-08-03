@@ -1,8 +1,6 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const Signup = mongoose.model("Signup");
-const Complaints = mongoose.model("Complaints");
-
 
 
 router.get("/Psychologists", async (req, res) => {
@@ -31,35 +29,35 @@ router.get("/Instructors", async (req, res) => {
     res.send(person)
 })
 
-router.put("/blockAccount/:accountId", async (req, res) => {
-    var id = req.params.accountId;
-    const updatestatus = await Signup.findOneAndUpdate({
-        _id: id
-    },
-        { accountStatus: "blocked" },
-        {
-            new: true,
-            // runValidators: true
-        })
-    res.send({ "Account has been blocked": updatestatus });
-})
+// router.put("/blockAccount/:accountId", async (req, res) => {
+//     var id = req.params.accountId;
+//     const updatestatus = await Signup.findOneAndUpdate({
+//         _id: id
+//     },
+//         { accountStatus: "blocked" },
+//         {
+//             new: true,
+//             // runValidators: true
+//         })
+//     res.send({ "Account has been blocked": updatestatus });
+// })
 
-router.put("/unblockAccount/:accountId", async (req, res) => {
-    var id = req.params.accountId;
-    const updatestatus = await Signup.findOneAndUpdate({
-        _id: id
-    },
-        { accountStatus: "approved" },
-        {
-            new: true,
-        })
-    res.send({ "Account has been blocked": updatestatus });
-})
+// router.put("/unblockAccount/:accountId", async (req, res) => {
+//     var id = req.params.accountId;
+//     const updatestatus = await Signup.findOneAndUpdate({
+//         _id: id
+//     },
+//         { accountStatus: "approved" },
+//         {
+//             new: true,
+//         })
+//     res.send({ "Account has been blocked": updatestatus });
+// })
 
-router.get("/blockedAccounts", async (req, res) => {
-    const person = await Signup.find({ accountStatus: "blocked" });
-    res.send(person)
-})
+// router.get("/blockedAccounts", async (req, res) => {
+//     const person = await Signup.find({ accountStatus: "blocked" });
+//     res.send(person)
+// })
 
 
 module.exports = router;
