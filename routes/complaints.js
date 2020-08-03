@@ -12,7 +12,6 @@ router.post("/:psychologistId", async (req, res, next) => {
         complaint._id = mongoose.Types.ObjectId();
        
         complaint.submittedAgainst = req.params.psychologistId;
-
         
         complaint.submittedBy = req.body.patientId;
         complaint.complaintText = req.body.complaintText;
