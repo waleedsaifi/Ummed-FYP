@@ -3,10 +3,11 @@ const mongoose = require('mongoose');
 const e = require('express');
 const MakePayments = mongoose.model("MakePayment");
 const PsychologistsBookSlots = mongoose.model("PsychologistsBookSlots");
+const createSession = mongoose.model("CreateSessions");
 
 router.post("/checkSlots/:psychologistId", async (req, res, next) => {
 
-     PsychologistsBookSlots.find({
+    PsychologistsBookSlots.find({
         sessionDate: req.body.sessionDate,
         psychologistId: req.params.psychologistId,
     }).exec(function (err, docs) {
@@ -14,30 +15,17 @@ router.post("/checkSlots/:psychologistId", async (req, res, next) => {
         if (docs.length) {
             res.send(docs[0].sessionTiming)
         }
-        else{
+        else {
             res.send("All slots available")
         }
-
-        // if (docs.length) {
-        //     PsychologistsBookSlots.find({
-        //         sessionDate: sessionDate,
-        //         sessionTiming: timeslot,
-        //         psychologistId: psychologistId,
-        //     }).exec(function (err, docs) {
-        //         if (docs.length) {
-        //             res.send(docs[0].sessionTiming)
-        //         }
-        //     })
-
-        // }
     })
 })
 
 
 router.post("/:psychologistId", async (req, res, next) => {
 
-    const {sessionDate, sessionTiming, paymentMethod, accountTitle, accountNo, serviceType, amount, paymentDate, paymentTime, paymentScreenShotProof, patientId } = req.body;
-    const psychologistId =req.params.psychologistId;
+    const { sessionDate, sessionTiming, paymentMethod, accountTitle, accountNo, serviceType, amount, paymentDate, paymentTime, paymentScreenShotProof, patientId } = req.body;
+    const psychologistId = req.params.psychologistId;
     const timeslot = sessionTiming.slice(0, 2);
     console.log(timeslot, 'time slot');
     const BookSlotNewDay = new PsychologistsBookSlots();
@@ -106,12 +94,6 @@ router.post("/:psychologistId", async (req, res, next) => {
 
         }
     })
-
-
-
-
-
-
 })
 
 
@@ -153,10 +135,11 @@ router.put("/pending/:paymentId", async (req, res) => {
         _id: id
     },
         { paymentStatus: "approved" },
-        {
-            new: true,
-            // runValidators: true
-        })
+        {    new: true,})
+
+
+
+   
     res.send({ "Payment has been approved": updatestatus });
 })
 
