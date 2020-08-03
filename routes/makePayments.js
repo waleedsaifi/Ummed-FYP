@@ -91,7 +91,6 @@ router.post("/:psychologistId", async (req, res, next) => {
                     res.status(201).json(
                         { "Payment will be verified by administration": result });
                 })
-
         }
     })
 })
@@ -142,7 +141,6 @@ router.put("/pending/:paymentId", async (req, res) => {
     createSession.psychologistId = updatestatus.psychologistId;
     createSession.patientId = updatestatus.patientId;
     createSession.paymentId = updatestatus._id;
-
     createSession.save()
         .then(result => {
             res.status(201).json(
