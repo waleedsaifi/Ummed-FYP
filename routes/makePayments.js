@@ -12,7 +12,7 @@ router.post("/checkslots/:psychologistId", async (req, res, next) => {
         psychologistId: req.params.psychologistId,
     }).exec(function (err, docs) {
 
-        if (docs.length) {
+        if (docs) {
             res.send(docs[0].sessionTiming)
         }
         else {
