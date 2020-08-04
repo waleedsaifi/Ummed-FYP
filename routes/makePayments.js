@@ -7,12 +7,24 @@ const CreateSession = mongoose.model("CreateSessions");
 
 router.post("/checkslots/:psychologistId", async (req, res, next) => {
 
+
+    // const getSlots = await  PsychologistsBookSlots.find({
+    //     sessionDate: req.body.sessionDate,
+    //     psychologistId: req.params.psychologistId,
+    // });
+
+    // if(getSlots==undefined)
+    // return res.send("No SLot");
+    // else
+    // return res.send(getSlots[0].sessionTiming)
+
     PsychologistsBookSlots.find({
         sessionDate: req.body.sessionDate,
         psychologistId: req.params.psychologistId,
     }).exec(function (err, docs) {
 
-        if (docs) {
+        if (docs.length) {
+            console.log(docs)
             res.send(docs[0].sessionTiming)
         }
         else {
