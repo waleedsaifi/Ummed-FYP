@@ -7,28 +7,18 @@ const CreateSession = mongoose.model("CreateSessions");
 
 router.post("/checkslots/:psychologistId", async (req, res, next) => {
 
-
-    // const getSlots = await  PsychologistsBookSlots.find({
-    //     sessionDate: req.body.sessionDate,
-    //     psychologistId: req.params.psychologistId,
-    // });
-
-    // if(getSlots==undefined)
-    // return res.send("No SLot");
-    // else
-    // return res.send(getSlots[0].sessionTiming)
-
+    const day= req.body.day;
     PsychologistsBookSlots.find({
         sessionDate: req.body.sessionDate,
         psychologistId: req.params.psychologistId,
     }).exec(function (err, docs) {
 
         if (docs.length) {
-            console.log(docs)
-            res.send(docs[0].sessionTiming)
+            console.log(day, "day")
+            res.send({Day: day, alreadyBookedSlots:docs[0].sessionTiming})
         }
         else {
-            res.send("All slots available")
+            res.send({Day: day, alreadyBookedSlots:"All slots available"})
         }
     })
 })
@@ -154,6 +144,9 @@ router.put("/pending/:paymentId", async (req, res) => {
     createSession.patientId = updatestatus.patientId;
     createSession.paymentId = updatestatus._id;
     createSession.save()
+    // .populate('psychologistId', 'name personImage')
+    // .populate('paymentId', 'sessionDate sessionTiming ')
+    // .exec()
         .then(result => {
             res.status(201).json(
                 { "Session has been created": result });
