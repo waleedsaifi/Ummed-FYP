@@ -22,10 +22,24 @@ router.get("/:psychologistId", async (req, res) => {
             error: err
         })
     })
+})
 
-    // console.log(req.params.patientId);
-    // const getPsychologistList = await CreateSession.find({ patientId: req.params.patientId });
-    // res.send(getPsychologistList)
+
+router.get("/activeSession/:psychologistId", async (req, res) => {
+    CreateSession.find({ psychologistId: req.params.psychologistId, sessionStatus: "Active"})
+    .populate('psychologistId', 'name personImage')
+    .populate('patientId', 'name personImage')
+    .populate('paymentId', 'sessionDate sessionTiming ')
+    .exec()
+    .then(docs => {
+        res.status(200).json(docs)
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    })
 })
 
 module.exports = router;
