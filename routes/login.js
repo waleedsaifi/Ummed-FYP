@@ -2,15 +2,9 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const Signup = mongoose.model("Signup");
 const bcrypt = require("bcrypt");
+const CreateSession = mongoose.model("CreateSessions");
 
 
-// router.post("/", async(req, res)=>{
-//     const email = req.body.email;
-//     const password = req.body.password;
-//     Signup.findOne({email: email, password: password},function(err, result){
-//         if(!result){
-//             res.send({error : "User Not Found"})}
-//         else{res.send(result)}})})
 
 
 router.post("/", async (req, res) => {
@@ -24,15 +18,36 @@ router.post("/", async (req, res) => {
   if (person.accountStatus == "pending") return res.send("Your account will be approved after Admin's Verification");
   if (person.accountStatus == "Blocked") return res.send("Your account will be approved after Admin's Verification");
 
-  else
+  else {
+ 
+
+    const findPsychologists = await CreateSession.find({ patientId: person.id }, 'psychologistId -_id')
+    const activeSessions = await CreateSession.find({ patientId: person.id, sessionStatus: "Active" })
+      .populate('psychologistId', 'name email')
+      .populate('patientId', 'name email')
+      .populate('paymentId', 'serviceType sessionDate sessionTiming ')
+
+  const findPatients=await CreateSession.find({ psychologistId: person.id}, 'patientId -_id')
+
     bcrypt.compare(password, person.password, function (err, isMatch) {
       if (err) {
         throw err
       } else if (!isMatch) {
         res.send("Incorrect Email Or Password");
       } else {
-        res.send(person)
+
+        if (person.userRole == "Patient") {
+          return res.json({ PersonData: person, Sessions: activeSessions, PsychologistList: findPsychologists })
+        }
+
+        if (person.userRole == "Psychologist") {
+          return res.json({ PersonData: person, PatientsList: findPatients })
+        }
+        return res.json({ PersonData: person})
+
+
       }
     })
+  }
 })
 module.exports = router;

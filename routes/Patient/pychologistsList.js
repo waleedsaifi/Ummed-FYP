@@ -5,11 +5,9 @@ const CreateSession = mongoose.model("CreateSessions");
 
 
 router.get("/:patientId", async (req, res) => {
-
-
-    CreateSession.find({ patientId: req.params.patientId})
+    CreateSession.find({ patientId: req.params.patientId}, 'psychologistId -_id')
     // select('_id')
-    .select('psychologistId')
+    // .select('psychologistId')
     // .populate('psychologistId', 'name personImage')
     // .populate('paymentId', 'sessionDate sessionTiming ')
     .exec()
@@ -22,10 +20,27 @@ router.get("/:patientId", async (req, res) => {
             error: err
         })
     })
-
-    // console.log(req.params.patientId);
-    // const getPsychologistList = await CreateSession.find({ patientId: req.params.patientId });
-    // res.send(getPsychologistList)
 })
+
+router.get("/activeSession/:patientId", async (req, res) => {
+    CreateSession.find({ patientId: req.params.patientId, sessionStatus: "Active"})
+    // select('_id')
+    
+    .populate('psychologistId', 'name personImage')
+    .populate('patientId', 'name personImage')
+    .populate('paymentId', 'sessionDate sessionTiming ')
+    .exec()
+    .then(docs => {
+        res.status(200).json(docs)
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    })
+})
+
+
 
 module.exports = router;

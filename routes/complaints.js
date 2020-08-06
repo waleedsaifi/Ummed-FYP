@@ -33,7 +33,7 @@ router.post("/:psychologistId", async (req, res, next) => {
 })
 
 router.get("/", async (req, res) => {
-    Complaints.find()
+    Complaints.find({ previousComplaintsCount: { $gte: 3 } } )
         .populate('submittedBy', 'name')
         .populate('submittedAgainst', 'name')
         .exec()
