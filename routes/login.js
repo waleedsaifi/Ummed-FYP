@@ -4,9 +4,6 @@ const Signup = mongoose.model("Signup");
 const bcrypt = require("bcrypt");
 const CreateSession = mongoose.model("CreateSessions");
 
-
-
-
 router.post("/", async (req, res) => {
   const password = req.body.password;
   const person = await Signup.findOne({
@@ -19,15 +16,17 @@ router.post("/", async (req, res) => {
   if (person.accountStatus == "Blocked") return res.send("Your account will be approved after Admin's Verification");
 
   else {
- 
-
     const findPsychologists = await CreateSession.find({ patientId: person.id }, 'psychologistId -_id')
-    const activeSessions = await CreateSession.find({ patientId: person.id, sessionStatus: "Active" })
+    const patientActiveSessions = await CreateSession.find({ patientId: person.id, sessionStatus: "Active" })
       .populate('psychologistId', 'name email')
       .populate('patientId', 'name email')
       .populate('paymentId', 'serviceType sessionDate sessionTiming ')
 
-  const findPatients=await CreateSession.find({ psychologistId: person.id}, 'patientId -_id')
+    const findPatients = await CreateSession.find({ psychologistId: person.id }, 'patientId -_id')
+    const psychologistActiveSessions = await CreateSession.find({ psychologistId: person.id, sessionStatus: "Active" })
+      .populate('psychologistId', 'name email')
+      .populate('patientId', 'name email')
+      .populate('paymentId', 'serviceType sessionDate sessionTiming ')
 
     bcrypt.compare(password, person.password, function (err, isMatch) {
       if (err) {
@@ -37,13 +36,13 @@ router.post("/", async (req, res) => {
       } else {
 
         if (person.userRole == "Patient") {
-          return res.json({ PersonData: person, Sessions: activeSessions, PsychologistList: findPsychologists })
+          return res.json({ PersonData: person, Sessions: patientActiveSessions, PsychologistList: findPsychologists })
         }
 
         if (person.userRole == "Psychologist") {
-          return res.json({ PersonData: person, PatientsList: findPatients })
+          return res.json({ PersonData: person, Sessions: psychologistActiveSessions, PatientsList: findPatients })
         }
-        return res.json({ PersonData: person})
+        return res.json({ PersonData: person })
 
 
       }
