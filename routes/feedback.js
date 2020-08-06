@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const Feedback = mongoose.model("Feedback");
+const psychologistRatings = mongoose.model("Ratings");
 
 
 router.post("/:patientId/:psychologistId", async (req, res, next) => {
@@ -40,17 +41,28 @@ router.get("/", async (req, res) => {
         })
 })
 
-// router.get("/:signupId", async (req, res) => {
-//     const person = await Signup.findOne({ _id: req.params.signupId })
-//     res.send(person);
-// })
+router.post("/giveRatings/:psychologistId", async (req, res) => {
+    psychologistRatings.findOneAndUpdate(
+        {
+            psychologistId: req.params.psychologistId,
+        },
+        { $push: { sessionTiming: timeslot } },
+        { new: true, })
+        .exec()
+    payment.save()
+        .then(result => {
+            res.status(201).json(
+                { "Payment will be verified by administration": result });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        })
+})
 
-// router.delete("/:signupId", async (req, res) => {
-//     const person = await Signup.findByIdAndRemove({
-//         _id: req.params.signupId
-//     });
-//     res.send(person);
-// })
+
 
 
 module.exports = router;

@@ -16,17 +16,17 @@ router.post("/", async (req, res) => {
   if (person.accountStatus == "Blocked") return res.send("Your account will be approved after Admin's Verification");
 
   else {
-    const findPsychologists = await CreateSession.find({ patientId: person.id }, 'psychologistId -_id')
-    const patientActiveSessions = await CreateSession.find({ patientId: person.id, sessionStatus: "Active" })
-      .populate('psychologistId', 'name email')
-      .populate('patientId', 'name email')
-      .populate('paymentId', 'serviceType sessionDate sessionTiming ')
+    // const findPsychologists = await CreateSession.find({ patientId: person.id }, 'psychologistId -_id')
+    // const patientActiveSessions = await CreateSession.find({ patientId: person.id, sessionStatus: "Active" })
+    //   .populate('psychologistId', 'name email')
+    //   .populate('patientId', 'name email')
+    //   .populate('paymentId', 'serviceType sessionDate sessionTiming ')
 
-    const findPatients = await CreateSession.find({ psychologistId: person.id }, 'patientId -_id')
-    const psychologistActiveSessions = await CreateSession.find({ psychologistId: person.id, sessionStatus: "Active" })
-      .populate('psychologistId', 'name email')
-      .populate('patientId', 'name email')
-      .populate('paymentId', 'serviceType sessionDate sessionTiming ')
+    // const findPatients = await CreateSession.find({ psychologistId: person.id }, 'patientId -_id')
+    // const psychologistActiveSessions = await CreateSession.find({ psychologistId: person.id, sessionStatus: "Active" })
+    //   .populate('psychologistId', 'name email')
+    //   .populate('patientId', 'name email')
+    //   .populate('paymentId', 'serviceType sessionDate sessionTiming ')
 
     bcrypt.compare(password, person.password, function (err, isMatch) {
       if (err) {
@@ -35,14 +35,14 @@ router.post("/", async (req, res) => {
         res.send("Incorrect Email Or Password");
       } else {
 
-        if (person.userRole == "Patient") {
-          return res.json({ PersonData: person, Sessions: patientActiveSessions, PsychologistList: findPsychologists })
-        }
+        // if (person.userRole == "Patient") {
+        //   return res.json({ person, Sessions: patientActiveSessions, PsychologistList: findPsychologists })
+        // }
 
-        if (person.userRole == "Psychologist") {
-          return res.json({ PersonData: person, Sessions: psychologistActiveSessions, PatientsList: findPatients })
-        }
-        return res.json({ PersonData: person })
+        // if (person.userRole == "Psychologist") {
+        //   return res.json({ person, Sessions: psychologistActiveSessions, PatientsList: findPatients })
+        // }
+        return res.send(person)
 
 
       }
