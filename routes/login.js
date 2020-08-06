@@ -40,6 +40,8 @@ router.post("/", async (req, res) => {
         // }
 
         // if (person.userRole == "Psychologist") {
+        //   return res.send({Sessions:psychologistActiveSessions})
+
         //   return res.json({ person, Sessions: psychologistActiveSessions, PatientsList: findPatients })
         // }
         return res.send(person)
