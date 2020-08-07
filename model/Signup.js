@@ -24,6 +24,7 @@ const signup_schema = mongoose.Schema({
     instagramLink: String,
 
     //PsychplogistFields
+    psychologistRatings:{type : Number, default: 0} ,
     areaOfSpeciality: String,
     weekdaysTimingFrom: String,
     weekdaysTimingTill: String,
