@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 
 const progressReport_schema = mongoose.Schema({
-    submittedBy:{ type: mongoose.Schema.Types.ObjectId, ref:'Signup'},
-    reportOfPatient: { type: mongoose.Schema.Types.ObjectId, ref:'Signup'},
-    report:String 
+    psychologistId:{ type: mongoose.Schema.Types.ObjectId, ref:'Signup'},
+    patientId: { type: mongoose.Schema.Types.ObjectId, ref:'Signup'},
+    observedConditionBeforeSession: String,
+    observedConditionAfterSession: String,
+    suggestions: String,
+    reportDate:String,
+    reportTiming:String 
 })
 module.exports = mongoose.model("ProgressReport", progressReport_schema);

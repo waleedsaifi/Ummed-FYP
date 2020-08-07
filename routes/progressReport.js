@@ -3,12 +3,16 @@ const mongoose = require('mongoose');
 const ProgressReport = mongoose.model("ProgressReport");
 
 
-router.post("/:patientId/:psychologistId", async (req, res, next) => {
+router.post("/:patientId", async (req, res, next) => {
     const report = new ProgressReport();
     report._id = mongoose.Types.ObjectId();
-    report.submittedBy = req.params.psychologistId;
-    report.reportOfPatient = req.params.patientId;
-    report.report = req.body.report;
+    report.psychologistId = req.body.PsychologistId;
+    report.patientId = req.params.patientId;
+    report.observedConditionBeforeSession = req.body.observedConditionBeforeSession;
+    report.observedConditionAfterSession = req.body.observedConditionAfterSession;
+    report.suggestions = req.body.suggestions;
+    report.reportDate = req.params.reportDate;
+    report.reportTiming = req.body.reportTiming;
     report.save()
         .then(result => {
             res.status(201).json(
@@ -22,11 +26,10 @@ router.post("/:patientId/:psychologistId", async (req, res, next) => {
         });
 })
 
- 
-router.get("/", async (req, res) => {
-    ProgressReport.find()
-        .populate('submittedBy', 'name')
-        .populate('reportOfPatient', 'name')
+router.get("/:patientId", async (req, res) => {
+    ProgressReport.find({ patientId: req.params.patientId })
+        .populate('psychologistId', 'name personImage')
+        // .populate('reportOfPatient', 'name')
         .exec()
         .then(docs => {
             res.status(200).json(docs)

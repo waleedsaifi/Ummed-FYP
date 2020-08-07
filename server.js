@@ -5,16 +5,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const server = require("http").createServer(app);
 const io = require("socket.io").listen(server);
-// const upload = require('./handlers/multer')
-// require('./handlers/cloudinary');
+
   
-io.on("connection" , socket => {
-    console.log("User Connected :D");
-    socket.on("chat message" , msg =>{
-        console.log(msg);
-        io.emit("chat message" , msg);
-    })   
-} )
 //MiddleWare
 app.use(bodyParser.json());
 app.use(morgan())
@@ -39,9 +31,6 @@ require("./model/PsychologistsBookSlots");
 require("./model/Patient/WriteSuccessStory");
 require("./model/CreateSessions");
 require("./model/Psychologist/PsychologistRatings");
-
-
-
 
 
 

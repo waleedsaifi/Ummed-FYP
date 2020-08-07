@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 
 const successStory_schema = mongoose.Schema({
-    submittedBy:{ type: mongoose.Schema.Types.ObjectId, ref:'Signup'},
-    // feedbackAgainst: { type: mongoose.Schema.Types.ObjectId, ref:'Signup'},
-    story:String ,
-    status: String
-})
+    // psychologistId:{ type: mongoose.Schema.Types.ObjectId, ref:'Signup'},
+    patientId: { type: mongoose.Schema.Types.ObjectId, ref:'Signup'},
+    successStory: String,
+    successStoryDate:String,
+    successStoryTiming:String,
+    status:{type:String, default:"pending"} 
+}) 
 module.exports = mongoose.model("successStory", successStory_schema);

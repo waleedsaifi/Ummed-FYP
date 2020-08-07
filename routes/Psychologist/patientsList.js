@@ -6,8 +6,11 @@ const CreateSession = mongoose.model("CreateSessions");
 
 router.get("/:psychologistId", async (req, res) => {
 
-
-    CreateSession.find({ psychologistId: req.params.psychologistId}, 'patientId -_id')
+    CreateSession.find({ psychologistId: req.params.psychologistId})
+    .populate('psychologistId')
+    .populate('patientId')
+    .populate('paymentId')
+    // CreateSession.find({ psychologistId: req.params.psychologistId}, 'patientId -_id')
     // select('_id')
     // .select('patientId')
     // .populate('psychologistId', 'name personImage')
@@ -27,9 +30,12 @@ router.get("/:psychologistId", async (req, res) => {
 
 router.get("/activeSession/:psychologistId", async (req, res) => {
     CreateSession.find({ psychologistId: req.params.psychologistId, sessionStatus: "Active"})
-    .populate('psychologistId', 'name personImage')
-    .populate('patientId', 'name personImage')
-    .populate('paymentId', 'sessionDate sessionTiming ')
+    // .populate('psychologistId', 'name personImage')
+    // .populate('patientId', 'name personImage')
+    // .populate('paymentId', 'sessionDate sessionTiming ')
+    .populate('psychologistId')
+    .populate('patientId')
+    .populate('paymentId')
     .exec()
     .then(docs => {
         res.status(200).json(docs)

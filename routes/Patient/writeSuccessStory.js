@@ -4,20 +4,20 @@ const SuccessStory = mongoose.model("successStory");
 
 
 router.post("/:patientId", async (req, res, next) => {
-
-    SuccessStory.find({submittedBy : req.params.patientId})
-    .exec(function(err,doc){
-        if(doc.length) {
-            return res.send("You already added Success Story");
-        }
-    })
-
+    // SuccessStory.find({ submittedBy: req.params.patientId })
+    //     .exec(function (err, doc) {
+    //         if (doc.length) {
+    //             return res.send("You already added Success Story");
+    //         }
+    //     })
     console.log(req.params.patientId);
     const story = new SuccessStory();
     story._id = mongoose.Types.ObjectId();
-    story.submittedBy = req.params.patientId;
-    story.story = req.body.story;
-    story.status= "pending"
+    // story.psychologistId = req.body.psychologistId;
+    story.patientId = req.params.patientId;
+    story.successStory = req.body.successStory;
+    story.successStoryDate = req.body.successStoryDate;
+    story.successStoryTiming = req.body.successStoryTiming;
     story.save()
         .then(result => {
             res.status(201).json(
@@ -31,11 +31,10 @@ router.post("/:patientId", async (req, res, next) => {
         });
 })
 
- 
-router.get("/getSuccessStory", async (req, res) => {
+router.get("/getPendingSuccessStory", async (req, res) => {
 
-    SuccessStory.find()
-        .populate('submittedBy', 'name')
+    SuccessStory.find({ status: "pending" })
+        // .populate('patientId', 'name , personImage')
         // .populate('feedbackAgainst', 'name')
         .exec()
         .then(docs => {
@@ -49,17 +48,37 @@ router.get("/getSuccessStory", async (req, res) => {
         })
 })
 
-// router.get("/:signupId", async (req, res) => {
-//     const person = await Signup.findOne({ _id: req.params.signupId })
-//     res.send(person);
-// })
 
-// router.delete("/:signupId", async (req, res) => {
-//     const person = await Signup.findByIdAndRemove({
-//         _id: req.params.signupId
-//     });
-//     res.send(person);
-// })
+router.put("/approvePendingSuccessStory/:storyId", async (req, res) => {
+    var id = req.params.storyId;
+    const updatestatus = await SuccessStory.findOneAndUpdate({
+        _id: id
+    },
+        { status: "approved" },
+        {
+            new: true,
+            // runValidators: true
+        })
+    res.send({ "Patient Success Story has been approved ": updatestatus });
+})
 
+
+
+router.get("/getApprovedSuccessStory", async (req, res) => {
+
+    SuccessStory.find({ status: "approved" })
+        .populate('patientId', 'name , personImage')
+        // .populate('feedbackAgainst', 'name')
+        .exec()
+        .then(docs => {
+            res.status(200).json(docs)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        })
+})
 
 module.exports = router;

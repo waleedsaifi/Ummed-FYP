@@ -4,16 +4,18 @@ const Feedback = mongoose.model("Feedback");
 const psychologistRatings = mongoose.model("Ratings");
 
 
-router.post("/:patientId/:psychologistId", async (req, res, next) => {
-    console.log("hello From Feedabck")
+router.post("/:psychologistId", async (req, res, next) => {
     const feedback = new Feedback();
     feedback._id = mongoose.Types.ObjectId();
-    feedback.submittedBy = req.params.patientId;
-    feedback.feedbackAgainst = req.params.psychologistId;
-    feedback.complaint = req.body.feedback;
+    feedback.psychologistId = req.params.psychologistId;
+    feedback.patientId = req.body.patientId;
+    feedback.rating = req.body.rating;
+    feedback.feedback = req.body.feedback;
+    feedback.feedbackDate = req.body.feedbackDate;
+    feedback.feedbackTiming = req.body.feedbackTiming;
     feedback.save()
         .then(result => {
-            res.status(201).json(
+            res.status(200).json(
                 { "Feedback Registered Successfully ": result });
         })
         .catch(err => {
@@ -24,11 +26,10 @@ router.post("/:patientId/:psychologistId", async (req, res, next) => {
         });
 })
 
- 
-router.get("/", async (req, res) => {
-    Feedback.find()
-        .populate('submittedBy', 'name')
-        .populate('feedbackAgainst', 'name')
+
+router.get("/:psychologistId", async (req, res) => {
+    Feedback.find({ psychologistId: req.params.psychologistId })
+        .populate('patientId', 'name email')
         .exec()
         .then(docs => {
             res.status(200).json(docs)
@@ -46,7 +47,7 @@ router.post("/giveRatings/:psychologistId", async (req, res) => {
         {
             psychologistId: req.params.psychologistId,
         },
-        { $push: { sessionTiming: timeslot } },
+        { $push: { ratingsArray: timeslot } },
         { new: true, })
         .exec()
     payment.save()
