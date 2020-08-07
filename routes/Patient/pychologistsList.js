@@ -7,7 +7,6 @@ const CreateSession = mongoose.model("CreateSessions");
 router.get("/:patientId", async (req, res) => {
     CreateSession.find({ patientId: req.params.patientId})
     .populate('psychologistId')
-    .pretty()
     // .populate('patientId')
     // .populate('paymentId')
     .exec()
@@ -27,7 +26,6 @@ router.get("/activeSession/:patientId", async (req, res) => {
     .populate('psychologistId', 'name personImage email')
     // .populate('patientId', 'name personImage')
     .populate('paymentId')
-    .pretty()
     // .populate('psychologistId')
     // .populate('patientId')
     // .populate('paymentId')

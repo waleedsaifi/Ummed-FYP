@@ -9,7 +9,6 @@ router.get("/:psychologistId", async (req, res) => {
     CreateSession.find({ psychologistId: req.params.psychologistId})
     // .populate('psychologistId')
     .populate('patientId')
-    .pretty()
     // .populate('paymentId')
     // CreateSession.find({ psychologistId: req.params.psychologistId}, 'patientId -_id')
     // select('_id')
@@ -37,7 +36,6 @@ router.get("/activeSession/:psychologistId", async (req, res) => {
     // .populate('psychologistId')
     // .populate('patientId')
     .populate('paymentId')
-    .pretty()
     .exec()
     .then(docs => {
         res.status(200).json(docs)
