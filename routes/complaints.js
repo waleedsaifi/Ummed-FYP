@@ -1,26 +1,26 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
-const Complaints = mongoose.model("Complaints");
+const ReportProfile = mongoose.model("ReportProfile");
 
-router.post("/:psychologistId", async (req, res, next) => {
+router.post("/:reportAgainst", async (req, res, next) => {
 
     
     Complaints.countDocuments({submittedAgainst: req.params.psychologistId},
          function(err, c) {
         console.log('Count is ' + c);
-        const complaint = new Complaints();
+        const complaint = new Complaints(); 
         complaint._id = mongoose.Types.ObjectId();
        
-        complaint.submittedAgainst = req.params.psychologistId;   
-        complaint.submittedBy = req.body.patientId;
-        complaint.complaintText = req.body.complaintText;
-        complaint.complaintProof = req.body.complaintProof;
-
+        complaint.reportAgainst = req.params.reportAgainst;
+        complaint.patientId = req.body.patientId;   
+        complaint.reportText = req.body.reportText;
+        complaint.reportProof = req.body.reportProof;
         complaint.previousComplaintsCount= c;  
+        
         complaint.save()
             .then(result => {
                 res.status(201).json(
-                    { "Complaint Registered Successfully ": result });
+                    { "Report Registered Successfully ": result });
             })
             .catch(err => {
                 console.log(err);
@@ -34,8 +34,8 @@ router.post("/:psychologistId", async (req, res, next) => {
 
 router.get("/", async (req, res) => {
     Complaints.find({ previousComplaintsCount: { $gte: 3 } } )
-        .populate('submittedBy', 'name')
-        .populate('submittedAgainst', 'name')
+        .populate('patientId', 'name')
+        .populate('reportAgainst', 'name')
         .exec()
         .then(docs => {
             res.status(200).json(docs)

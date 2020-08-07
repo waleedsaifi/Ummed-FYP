@@ -19,7 +19,6 @@ require("./mongo");
 
 //Models
 require("./model/Signup");
-require("./model/Complaints");
 require("./model/Feedback");
 require("./model/ProgressReport");
 require("./model/MotivationalBlogs");
@@ -31,6 +30,7 @@ require("./model/PsychologistsBookSlots");
 require("./model/Patient/WriteSuccessStory");
 require("./model/CreateSessions");
 require("./model/Psychologist/PsychologistRatings");
+require("./model/ReportProfile");
 
 
 

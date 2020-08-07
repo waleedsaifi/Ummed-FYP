@@ -7,9 +7,10 @@ const CreateSession = mongoose.model("CreateSessions");
 router.get("/:psychologistId", async (req, res) => {
 
     CreateSession.find({ psychologistId: req.params.psychologistId})
-    .populate('psychologistId')
+    // .populate('psychologistId')
     .populate('patientId')
-    .populate('paymentId')
+    .pretty()
+    // .populate('paymentId')
     // CreateSession.find({ psychologistId: req.params.psychologistId}, 'patientId -_id')
     // select('_id')
     // .select('patientId')
@@ -31,11 +32,12 @@ router.get("/:psychologistId", async (req, res) => {
 router.get("/activeSession/:psychologistId", async (req, res) => {
     CreateSession.find({ psychologistId: req.params.psychologistId, sessionStatus: "Active"})
     // .populate('psychologistId', 'name personImage')
-    // .populate('patientId', 'name personImage')
+    .populate('patientId', 'name personImage email')
     // .populate('paymentId', 'sessionDate sessionTiming ')
-    .populate('psychologistId')
-    .populate('patientId')
+    // .populate('psychologistId')
+    // .populate('patientId')
     .populate('paymentId')
+    .pretty()
     .exec()
     .then(docs => {
         res.status(200).json(docs)
