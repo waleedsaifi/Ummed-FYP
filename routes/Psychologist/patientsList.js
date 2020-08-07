@@ -14,7 +14,7 @@ router.get("/:psychologistId", async (req, res) => {
             Signup.find({ _id: docs })
                 .exec()
                 .then(doc => {
-                    res.status(200).send(docs)
+                    res.status(200).send(doc)
                 })
             console.log(docs, 'ids')  
         })
