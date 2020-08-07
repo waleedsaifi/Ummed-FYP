@@ -2,23 +2,22 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 
 const CreateSession = mongoose.model("CreateSessions");
+const Signup = mongoose.model("Signup");
 
 
 router.get("/:psychologistId", async (req, res) => {
 
     CreateSession.find({ psychologistId: req.params.psychologistId}, '-sessionStatus -_id -psychologistId -paymentId -__v')
-    // .populate('psychologistId')
-    .populate('patientId')
-    // .populate('paymentId')
-    // CreateSession.find({ psychologistId: req.params.psychologistId}, 'patientId -_id')
-    // select('_id')
-    // .select('patientId')
-    // .populate('psychologistId', 'name personImage')
-    // .populate('paymentId', 'sessionDate sessionTiming ')
-    .exec()
-    .then(docs => {
-        res.status(200).json(docs)
-    })
+    .distinct('patientId')
+        .exec()
+        .then(docs => {
+            Signup.find({ _id: docs })
+                .exec()
+                .then(doc => {
+                    res.status(200).send(docs)
+                })
+            console.log(docs, 'ids')  
+        })
     .catch(err => {
         console.log(err);
         res.status(500).json({
