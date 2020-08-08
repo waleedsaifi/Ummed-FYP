@@ -43,13 +43,6 @@ router.post("/:psychologistId", async (req, res, next) => {
             ratings.save()
         }
     })
-
-    
-
-        // return res.send(update)
-        
-    
-
     feedback.save()
         .then(result => {
             res.status(200).json(

@@ -6,6 +6,7 @@ const progressReport_schema = mongoose.Schema({
     observedConditionBeforeSession: String,
     observedConditionAfterSession: String,
     suggestions: String,
+    conditionImproved:String,
     reportDate:String,
     reportTiming:String 
 })

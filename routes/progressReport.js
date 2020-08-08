@@ -11,7 +11,8 @@ router.post("/:patientId", async (req, res, next) => {
     report.observedConditionBeforeSession = req.body.observedConditionBeforeSession;
     report.observedConditionAfterSession = req.body.observedConditionAfterSession;
     report.suggestions = req.body.suggestions;
-    report.reportDate = req.params.reportDate;
+    report.reportDate = req.body.reportDate;
+    report.conditionImproved= req.body.conditionImproved;
     report.reportTiming = req.body.reportTiming;
     report.save()
         .then(result => {
