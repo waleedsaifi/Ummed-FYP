@@ -38,7 +38,7 @@ require("./model/ReportProfile");
 app.use("/signup", require("./routes/signup"));
 app.use("/login", require("./routes/login"));
 app.use("/getAccount", require("./routes/getAccount"));
-app.use("/complaints", require("./routes/complaints")); 
+app.use("/reportProfile", require("./routes/reportProfile")); 
 app.use("/feedback", require("./routes/feedback")); 
 app.use("/progressReport", require("./routes/progressReport"));
 app.use("/motivationalblogs", require("./routes/motivationalBlogs"));

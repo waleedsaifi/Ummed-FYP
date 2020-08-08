@@ -29,18 +29,7 @@ router.get("/Instructors", async (req, res) => {
     res.send(person)
 })
 
-// router.put("/blockAccount/:accountId", async (req, res) => {
-//     var id = req.params.accountId;
-//     const updatestatus = await Signup.findOneAndUpdate({
-//         _id: id
-//     },
-//         { accountStatus: "blocked" },
-//         {
-//             new: true,
-//             // runValidators: true
-//         })
-//     res.send({ "Account has been blocked": updatestatus });
-// })
+
 
 // router.put("/unblockAccount/:accountId", async (req, res) => {
 //     var id = req.params.accountId;
