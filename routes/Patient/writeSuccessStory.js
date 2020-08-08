@@ -62,6 +62,13 @@ router.put("/approvePendingSuccessStory/:storyId", async (req, res) => {
     res.send({ "Patient Success Story has been approved ": updatestatus });
 })
 
+router.delete("/deleteSuccessStory/:storyId", async (req, res) => {
+    const deleteSuccessStory = await SuccessStory.findByIdAndRemove({
+        _id: req.params.storyId
+    });
+    res.send({ "Success Story has been deleted": deleteSuccessStory });
+})
+
 
 
 router.get("/getApprovedSuccessStory", async (req, res) => {
