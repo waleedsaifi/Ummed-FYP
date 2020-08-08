@@ -7,7 +7,7 @@ const CreateSession = mongoose.model("CreateSessions");
 
 router.post("/checkslots/:psychologistId", async (req, res, next) => {
 
-    const day= req.body.day;
+    const day = req.body.day;
     PsychologistsBookSlots.find({
         sessionDate: req.body.sessionDate,
         psychologistId: req.params.psychologistId,
@@ -15,10 +15,10 @@ router.post("/checkslots/:psychologistId", async (req, res, next) => {
 
         if (docs.length) {
             console.log(day, "day")
-            res.send({Day: day, alreadyBookedSlots:docs[0].sessionTiming})
+            res.send({ Day: day, alreadyBookedSlots: docs[0].sessionTiming })
         }
         else {
-            res.send({Day: day, alreadyBookedSlots:"All slots available"})
+            res.send({ Day: day, alreadyBookedSlots: "All slots available" })
         }
     })
 })
@@ -50,51 +50,63 @@ router.post("/:psychologistId", async (req, res, next) => {
     payment.paymentScreenShotProof = paymentScreenShotProof;
     payment.patientId = patientId;
 
-    const searchDay = PsychologistsBookSlots.find({
-        sessionDate: sessionDate,
-        psychologistId: psychologistId,
-    }).exec(function (err, docs) {
-        if (docs.length) {
-            PsychologistsBookSlots.find({
-                sessionDate: sessionDate,
-                sessionTiming: timeslot,
-                psychologistId: psychologistId,
-            }).exec(function (err, docs) {
-                if (docs.length) {
-                    res.send(docs[0].sessionTiming)
-                }
-                else {
-                    PsychologistsBookSlots.findOneAndUpdate(
-                        {
-                            sessionDate: sessionDate,
-                            psychologistId: psychologistId,
-                        },
-                        { $push: { sessionTiming: timeslot } },
-                        { new: true, })
-                        .exec()
-                    payment.save()
-                        .then(result => {
-                            res.status(201).json(
-                                { "Payment will be verified by administration": result });
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            res.status(500).json({
-                                error: err
+    if (serviceType == "Video Chat") {
+        console.log(serviceType);
+
+        const searchDay = PsychologistsBookSlots.find({
+            sessionDate: sessionDate,
+            psychologistId: psychologistId,
+        }).exec(function (err, docs) {
+            if (docs.length) {
+                PsychologistsBookSlots.find({
+                    sessionDate: sessionDate,
+                    sessionTiming: timeslot,
+                    psychologistId: psychologistId,
+                }).exec(function (err, docs) {
+                    if (docs.length) {
+                        res.send(docs[0].sessionTiming)
+                    }
+                    else {
+                        PsychologistsBookSlots.findOneAndUpdate(
+                            {
+                                sessionDate: sessionDate,
+                                psychologistId: psychologistId,
+                            },
+                            { $push: { sessionTiming: timeslot } },
+                            { new: true, })
+                            .exec()
+                        payment.save()
+                            .then(result => {
+                                res.status(201).json(
+                                    { "Payment will be verified by administration": result });
                             })
-                        })
-                }
-            })
-        }
-        else {
-            BookSlotNewDay.save()
-            payment.save()
-                .then(result => {
-                    res.status(201).json(
-                        { "Payment will be verified by administration": result });
+                            .catch(err => {
+                                console.log(err);
+                                res.status(500).json({
+                                    error: err
+                                })
+                            })
+                    }
                 })
-        }
-    })
+            }
+            else {
+                BookSlotNewDay.save()
+                payment.save()
+                    .then(result => {
+                        res.status(201).json(
+                            { "Payment will be verified by administration": result });
+                    })
+            }
+        })
+    } else {
+        console.log(serviceType);
+        BookSlotNewDay.save()
+        payment.save()
+            .then(result => {
+                res.status(201).json(
+                    { "Payment will be verified by administration": result });
+            })
+    }
 })
 
 
@@ -144,9 +156,9 @@ router.put("/pending/:paymentId", async (req, res) => {
     createSession.patientId = updatestatus.patientId;
     createSession.paymentId = updatestatus._id;
     createSession.save()
-    // .populate('psychologistId', 'name personImage')
-    // .populate('paymentId', 'sessionDate sessionTiming ')
-    // .exec()
+        // .populate('psychologistId', 'name personImage')
+        // .populate('paymentId', 'sessionDate sessionTiming ')
+        // .exec()
         .then(result => {
             res.status(201).json(
                 { "Session has been created": result });
