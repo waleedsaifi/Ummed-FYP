@@ -6,4 +6,4 @@ const SystemComplaint_schema = mongoose.Schema({
     systemComplaintDate: String,
     systemComplaintTiming: String
 })
-module.exports = mongoose.model("SystemComplaints", SystemComplaint_schema);
+module.exports = mongoose.model("SystemComplaints",SystemComplaint_schema);

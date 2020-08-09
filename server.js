@@ -31,6 +31,8 @@ require("./model/Patient/WriteSuccessStory");
 require("./model/CreateSessions");
 require("./model/Psychologist/PsychologistRatings");
 require("./model/ReportProfile");
+require("./model/SystemAccount");
+require("./model/MeetingDetails");
 
 
 

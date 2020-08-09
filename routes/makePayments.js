@@ -1,9 +1,12 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const e = require('express');
+// const MeetingDetails = require('../model/MeetingDetails');
 const MakePayments = mongoose.model("MakePayment");
 const PsychologistsBookSlots = mongoose.model("PsychologistsBookSlots");
 const CreateSession = mongoose.model("CreateSessions");
+const SystemAccount = mongoose.model("SystemAccount");
+const MeetingDetails = mongoose.model("MeetingDetails");
 
 router.post("/checkslots/:psychologistId", async (req, res, next) => {
 
@@ -142,6 +145,22 @@ router.get("/pending", async (req, res) => {
         })
 })
 
+// router.get("/getPsychologistPendingPayments/:psychologistId", async (req, res) => {
+//     MakePayments.find({ paymentStatus: "pending" , psychologistId:req.params.psychologistId})
+//         .populate('psychologistId', 'name personImage')
+//         .populate('patientId', 'name personImage')
+//         .exec()
+//         .then(docs => {
+//             res.status(200).json(docs)
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             })
+//         })
+// })
+
 router.put("/pending/:paymentId", async (req, res) => {
     var id = req.params.paymentId;
     const updatestatus = await MakePayments.findOneAndUpdate({
@@ -149,6 +168,27 @@ router.put("/pending/:paymentId", async (req, res) => {
     },
         { paymentStatus: "approved" },
         { new: true, })
+
+
+        console.log(updatestatus);
+
+        // const SystemAccount = new SystemAccount();
+        // const updatSystemAccount = await SystemAccount.findOneAndUpdate({
+        // },
+        //     { systemAccountBalance: updatestatus.amount })
+
+        //     console.log(updatSystemAccount, "SA");
+
+
+
+        const meetingDetails = new MeetingDetails();
+        meetingDetails._id = mongoose.Types.ObjectId();
+        meetingDetails.psychologistId = updatestatus.psychologistId;
+        meetingDetails.patientId = updatestatus.patientId;
+        meetingDetails.paymentId = updatestatus._id;
+        meetingDetails.meetingDetails= req.body.meetingDetails;
+        meetingDetails.save();
+        console.log(meetingDetails, "Details For Meeting");
 
     const createSession = new CreateSession();
     createSession._id = mongoose.Types.ObjectId();
@@ -161,7 +201,8 @@ router.put("/pending/:paymentId", async (req, res) => {
         // .exec()
         .then(result => {
             res.status(201).json(
-                { "Session has been created": result });
+                { "Session has been created": result ,
+            meetingDetails: meetingDetails.meetingDetails});
         })
 })
 
