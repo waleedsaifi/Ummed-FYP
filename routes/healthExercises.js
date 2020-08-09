@@ -70,7 +70,7 @@ router.delete("/pending/:exerciseId", async (req, res) => {
     const deleteExercise = await HealthExercises.findByIdAndRemove({
         _id: req.params.exerciseId
     });
-    res.send({ "Blog Deleted Successfully": deleteExercise });
+    res.send({ "Exercise Deleted Successfully": deleteExercise });
 })
 
 router.put("/like/:exerciseId/:personId", async (req, res) => {

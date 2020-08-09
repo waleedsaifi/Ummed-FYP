@@ -181,28 +181,28 @@ router.put("/pending/:paymentId", async (req, res) => {
 
 
 
-        const meetingDetails = new MeetingDetails();
-        meetingDetails._id = mongoose.Types.ObjectId();
-        meetingDetails.psychologistId = updatestatus.psychologistId;
-        meetingDetails.patientId = updatestatus.patientId;
-        meetingDetails.paymentId = updatestatus._id;
-        meetingDetails.meetingDetails= req.body.meetingDetails;
-        meetingDetails.save();
-        console.log(meetingDetails, "Details For Meeting");
+        // const meetingDetails = new MeetingDetails();
+        // meetingDetails._id = mongoose.Types.ObjectId();
+        // meetingDetails.psychologistId = updatestatus.psychologistId;
+        // meetingDetails.patientId = updatestatus.patientId;
+        // meetingDetails.paymentId = updatestatus._id;
+        // meetingDetails.meetingDetails= req.body.meetingDetails;
+        // meetingDetails.save();
+        // console.log(meetingDetails, "Details For Meeting");
 
     const createSession = new CreateSession();
     createSession._id = mongoose.Types.ObjectId();
     createSession.psychologistId = updatestatus.psychologistId;
     createSession.patientId = updatestatus.patientId;
     createSession.paymentId = updatestatus._id;
+    createSession.meetingDetails= req.body.meetingDetails;
     createSession.save()
         // .populate('psychologistId', 'name personImage')
         // .populate('paymentId', 'sessionDate sessionTiming ')
         // .exec()
         .then(result => {
             res.status(201).json(
-                { "Session has been created": result ,
-            meetingDetails: meetingDetails.meetingDetails});
+                { "Session has been created": result});
         })
 })
 
