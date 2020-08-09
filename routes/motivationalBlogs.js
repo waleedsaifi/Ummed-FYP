@@ -78,7 +78,10 @@ router.put("/like/:blogId/:personId", async (req, res) => {
     var id = req.params.blogId;
     MotivationalBlogs.findOneAndUpdate(
         { _id: id },
-        { $push: { likes: req.params.personId } },
+        {
+            $push: { likes: req.params.personId },
+            $pull: { dislikes: req.params.personId },
+        },
         { new: true, })
         .exec()
         .then(docs => {
@@ -118,14 +121,16 @@ router.put("/comment/:blogId/:personId", async (req, res) => {
 
     const comment = {
         comment: req.body.comment,
-        postedBy:req.params.personId
+        postedBy: req.params.personId
     }
+    console.log(comment);
     var id = req.params.blogId;
     MotivationalBlogs.findOneAndUpdate(
         { _id: id },
         { $push: { comments: comment } },
         { new: true, })
-        .populate("comments.postedBy" , "_id name")
+        .populate("comments.postedBy", "_id name")
+        .populate("comments.postedBy", "_id name")
         .exec()
         .then(docs => {
             res.status(200).json(docs)
