@@ -6,8 +6,8 @@ const motivationalBlog_schema = mongoose.Schema({
     title: String,
     content: String,
     status: String,
-    likes: {type: Number, default: 0},
-    dislike:{type: Number, default: 0},
-    // comments:{type: [String] , default: null} 
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Signup' }],
+    dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Signup' }],
+    comments: [{ comment: String, postedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Signup' } }] 
 })
 module.exports = mongoose.model("MotivationalBlogs", motivationalBlog_schema);
