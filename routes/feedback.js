@@ -72,28 +72,25 @@ router.get("/:psychologistId", async (req, res) => {
         })
 })
 
-router.post("/giveRatings/:psychologistId", async (req, res) => {
-    psychologistRatings.findOneAndUpdate(
-        {
-            psychologistId: req.params.psychologistId,
-        },
-        { $push: { ratingsArray: timeslot } },
-        { new: true, })
-        .exec()
-    payment.save()
-        .then(result => {
-            res.status(201).json(
-                { "Payment will be verified by administration": result });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
+
+router.get("/psychologists/topRated", async (req, res) => {
+
+
+
+    const person = await Signup.find({ psychologistRatings: { $gte: 2 } });
+    res.send(person)
+    // Feedback.find()
+    //     .populate('patientId', 'name email')
+    //     .exec()
+    //     .then(docs => {
+    //         res.status(200).json(docs)
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //         res.status(500).json({
+    //             error: err
+    //         })
+    //     })
 })
-
-
-
 
 module.exports = router;
