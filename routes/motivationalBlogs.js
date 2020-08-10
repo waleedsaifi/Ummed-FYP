@@ -129,7 +129,7 @@ router.put("/comment/:blogId/:personId", async (req, res) => {
         { _id: id },
         { $push: { comments: comment } },
         { new: true, })
-        .populate("comments.postedBy", "_id name")
+        .populate("comments.postedBy", "_id name personImage")
         // .populate("postedBy", "_id name")
         .exec()
         .then(docs => {
