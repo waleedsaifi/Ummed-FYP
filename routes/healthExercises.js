@@ -142,4 +142,33 @@ router.put("/comment/:exerciseId/:personId", async (req, res) => {
         })
 })
 
+
+router.delete("/deleteExercise/:exerciseId", async (req, res) => {
+    const deleteExercise = await HealthExercises.findByIdAndRemove({
+        _id: req.params.exerciseId
+    });
+    res.send({ "Exercise has been deleted": deleteExercise });
+})
+
+router.put("/Removecomment/:videoId/:commentId", async (req, res) => {
+    HealthExercises.findOneAndUpdate({
+        _id: req.params.videoId
+    },
+        {
+            $pull: { comments: { _id: req.params.commentId } }
+        },
+        { new: true, })
+        .exec()
+        .then(docs => {
+            res.status(200).json(docs)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        })
+
+})
+
 module.exports = router;

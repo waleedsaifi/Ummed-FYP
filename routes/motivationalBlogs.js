@@ -19,7 +19,7 @@ router.post("/:bloggerId", async (req, res, next) => {
             console.log(err);
             res.status(500).json({
                 error: err
-            }) 
+            })
         });
 })
 
@@ -154,20 +154,20 @@ router.put("/Removecomment/:blogId/:commentId", async (req, res) => {
     MotivationalBlogs.findOneAndUpdate({
         _id: req.params.blogId
     },
-    {
-        $pull: { comments:{_id:req.params.commentId }  }
-    },
-    { new: true, })
-    .exec()
-    .then(docs => {
-        res.status(200).json(docs)
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            error: err
+        {
+            $pull: { comments: { _id: req.params.commentId } }
+        },
+        { new: true, })
+        .exec()
+        .then(docs => {
+            res.status(200).json(docs)
         })
-    })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        })
 
 })
 

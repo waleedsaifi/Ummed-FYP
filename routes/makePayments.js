@@ -165,13 +165,13 @@ router.put("/pending/:paymentId", async (req, res) => {
     // systemAccount.save();
 
 
-    // const updatSystemAccount = await SystemAccount.findOneAndUpdate({
-    // },
-    //     { systemAccountBalance: SystemAccount+ updatestatus.amount })
+    const updatSystemAccount = await SystemAccount.findOneAndUpdate({
+    },{upsert: true},
+        {$inc:{ systemAccountBalance:updatestatus.amount }})
 
-    //     console.log(updatSystemAccount, "SA");
-    //     (user_id, {$inc: {goals: 2}}
-
+        console.log(updatSystemAccount, "SA");
+        // (user_id, {$inc: {goals: 2}}
+        // })
     const createSession = new CreateSession();
     createSession._id = mongoose.Types.ObjectId();
     createSession.psychologistId = updatestatus.psychologistId;
@@ -179,9 +179,6 @@ router.put("/pending/:paymentId", async (req, res) => {
     createSession.paymentId = updatestatus._id;
     createSession.meetingDetails = req.body.meetingDetails;
     createSession.save()
-        // .populate('psychologistId', 'name personImage')
-        // .populate('paymentId', 'sessionDate sessionTiming ')
-        // .exec()
         .then(result => {
             res.status(201).json(
                 { "Session has been created": result });

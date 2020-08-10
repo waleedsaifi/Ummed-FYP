@@ -143,4 +143,32 @@ router.put("/comment/:videoId/:personId", async (req, res) => {
         })
 })
 
+router.delete("/deleteVideo/:videoId", async (req, res) => {
+    const deleteVideo = await MotivationalVideos.findByIdAndRemove({
+        _id: req.params.videoId
+    });
+    res.send({ "Video has been deleted": deleteVideo });
+})
+
+router.put("/Removecomment/:videoId/:commentId", async (req, res) => {
+    MotivationalVideos.findOneAndUpdate({
+        _id: req.params.videoId
+    },
+        {
+            $pull: { comments: { _id: req.params.commentId } }
+        },
+        { new: true, })
+        .exec()
+        .then(docs => {
+            res.status(200).json(docs)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        })
+
+})
+
 module.exports = router;
