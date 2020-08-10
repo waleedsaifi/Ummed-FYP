@@ -32,11 +32,11 @@ router.post("/:psychologistId", async (req, res, next) => {
                 { new: true, })
                 .exec()
 
-                 Signup.findOneAndUpdate(
-                    { _id: req.params.psychologistId },
-                    { psychologistRatings:avg},
-                    { new: true, })
-                    .exec()
+            Signup.findOneAndUpdate(
+                { _id: req.params.psychologistId },
+                { psychologistRatings: avg },
+                { new: true, })
+                .exec()
 
         }
         else {
@@ -75,22 +75,20 @@ router.get("/:psychologistId", async (req, res) => {
 
 router.get("/psychologists/topRated", async (req, res) => {
 
-
-
-    const person = await Signup.find({ psychologistRatings: { $gte: 2 } });
-    res.send(person)
-    // Feedback.find()
-    //     .populate('patientId', 'name email')
-    //     .exec()
-    //     .then(docs => {
-    //         res.status(200).json(docs)
-    //     })
-    //     .catch(err => {
-    //         console.log(err);
-    //         res.status(500).json({
-    //             error: err
-    //         })
-    //     })
+    // const person = await Signup.find({ psychologistRatings: { $gte: 2 } });
+    // res.send(person)
+    Signup.find({ psychologistRatings: { $gte: 2 } })
+        //     .populate('patientId', 'name email')
+        .exec()
+        .then(docs => {
+            res.status(200).json(docs)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        })
 })
 
 module.exports = router;

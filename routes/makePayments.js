@@ -145,21 +145,6 @@ router.get("/pending", async (req, res) => {
         })
 })
 
-// router.get("/getPsychologistPendingPayments/:psychologistId", async (req, res) => {
-//     MakePayments.find({ paymentStatus: "pending" , psychologistId:req.params.psychologistId})
-//         .populate('psychologistId', 'name personImage')
-//         .populate('patientId', 'name personImage')
-//         .exec()
-//         .then(docs => {
-//             res.status(200).json(docs)
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             res.status(500).json({
-//                 error: err
-//             })
-//         })
-// })
 
 router.put("/pending/:paymentId", async (req, res) => {
     var id = req.params.paymentId;
@@ -170,39 +155,29 @@ router.put("/pending/:paymentId", async (req, res) => {
         { new: true, })
 
 
-        console.log(updatestatus);
+    console.log(updatestatus);
 
-        // const SystemAccount = new SystemAccount();
-        // const updatSystemAccount = await SystemAccount.findOneAndUpdate({
-        // },
-        //     { systemAccountBalance: updatestatus.amount })
+    // const SystemAccount = new SystemAccount();
+    // const updatSystemAccount = await SystemAccount.findOneAndUpdate({
+    // },
+    //     { systemAccountBalance: updatestatus.amount })
 
-        //     console.log(updatSystemAccount, "SA");
+    //     console.log(updatSystemAccount, "SA");
 
-
-
-        // const meetingDetails = new MeetingDetails();
-        // meetingDetails._id = mongoose.Types.ObjectId();
-        // meetingDetails.psychologistId = updatestatus.psychologistId;
-        // meetingDetails.patientId = updatestatus.patientId;
-        // meetingDetails.paymentId = updatestatus._id;
-        // meetingDetails.meetingDetails= req.body.meetingDetails;
-        // meetingDetails.save();
-        // console.log(meetingDetails, "Details For Meeting");
 
     const createSession = new CreateSession();
     createSession._id = mongoose.Types.ObjectId();
     createSession.psychologistId = updatestatus.psychologistId;
     createSession.patientId = updatestatus.patientId;
     createSession.paymentId = updatestatus._id;
-    createSession.meetingDetails= req.body.meetingDetails;
+    createSession.meetingDetails = req.body.meetingDetails;
     createSession.save()
         // .populate('psychologistId', 'name personImage')
         // .populate('paymentId', 'sessionDate sessionTiming ')
         // .exec()
         .then(result => {
             res.status(201).json(
-                { "Session has been created": result});
+                { "Session has been created": result });
         })
 })
 
