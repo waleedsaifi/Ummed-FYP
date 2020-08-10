@@ -26,6 +26,7 @@ router.post("/:instructorId", async (req, res, next) => {
 router.get("/approved", async (req, res) => {
     HealthExercises.find({ status: "approved" })
         .populate('uploadedBy', 'name personImage')
+        .populate("comments.postedBy", "_id name personImage")
         .exec()
         .then(docs => {
             res.status(200).json(docs)
@@ -128,7 +129,7 @@ router.put("/comment/:exerciseId/:personId", async (req, res) => {
         { _id: id },
         { $push: { comments: comment } },
         { new: true, })
-        .populate("comments.postedBy", "_id name")
+        .populate("comments.postedBy", "_id name personImage")
         .exec()
         .then(docs => {
             res.status(200).json(docs)

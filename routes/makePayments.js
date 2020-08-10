@@ -155,15 +155,22 @@ router.put("/pending/:paymentId", async (req, res) => {
         { new: true, })
 
 
+
+        
     console.log(updatestatus);
 
-    // const SystemAccount = new SystemAccount();
+    // const systemAccount = new SystemAccount();
+    // systemAccount._id = mongoose.Types.ObjectId();
+    // systemAccount.systemAccountBalance= updatestatus.amount
+    // systemAccount.save();
+
+
     // const updatSystemAccount = await SystemAccount.findOneAndUpdate({
     // },
-    //     { systemAccountBalance: updatestatus.amount })
+    //     { systemAccountBalance: SystemAccount+ updatestatus.amount })
 
     //     console.log(updatSystemAccount, "SA");
-
+    //     (user_id, {$inc: {goals: 2}}
 
     const createSession = new CreateSession();
     createSession._id = mongoose.Types.ObjectId();

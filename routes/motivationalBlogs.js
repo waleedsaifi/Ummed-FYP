@@ -19,7 +19,7 @@ router.post("/:bloggerId", async (req, res, next) => {
             console.log(err);
             res.status(500).json({
                 error: err
-            })
+            }) 
         });
 })
 
@@ -131,7 +131,6 @@ router.put("/comment/:blogId/:personId", async (req, res) => {
         { $push: { comments: comment } },
         { new: true, })
         .populate("comments.postedBy", "_id name personImage")
-        // .populate("postedBy", "_id name")
         .exec()
         .then(docs => {
             res.status(200).json(docs)
@@ -142,6 +141,34 @@ router.put("/comment/:blogId/:personId", async (req, res) => {
                 error: err
             })
         })
+})
+
+router.delete("/deleteBlog/:blogId", async (req, res) => {
+    const deleteBlog = await MotivationalBlogs.findByIdAndRemove({
+        _id: req.params.blogId
+    });
+    res.send({ "Blog has been deleted": deleteBlog });
+})
+
+router.put("/Removecomment/:blogId/:commentId", async (req, res) => {
+    MotivationalBlogs.findOneAndUpdate({
+        _id: req.params.blogId
+    },
+    {
+        $pull: { comments:{_id:req.params.commentId }  }
+    },
+    { new: true, })
+    .exec()
+    .then(docs => {
+        res.status(200).json(docs)
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    })
+
 })
 
 module.exports = router;
