@@ -26,6 +26,7 @@ router.post("/:bloggerId", async (req, res, next) => {
 router.get("/approved", async (req, res) => {
     MotivationalBlogs.find({ status: "approved" })
         .populate('uploadedBy', 'name personImage')
+        .populate("comments.postedBy", "_id name personImage")
         .exec()
         .then(docs => {
             res.status(200).json(docs)
