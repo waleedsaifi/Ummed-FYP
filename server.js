@@ -23,7 +23,6 @@ require("./model/Feedback");
 require("./model/ProgressReport");
 require("./model/MotivationalBlogs");
 require("./model/HealthExercises");
-// require("./model/Comments");
 require("./model/MotivationalVideos");
 require("./model/MakePayment");
 require("./model/PsychologistsBookSlots");
@@ -32,7 +31,7 @@ require("./model/CreateSessions");
 require("./model/Psychologist/PsychologistRatings");
 require("./model/ReportProfile");
 require("./model/SystemAccount");
-require("./model/MeetingDetails");
+
 
 
 
@@ -46,7 +45,6 @@ app.use("/progressReport", require("./routes/progressReport"));
 app.use("/motivationalblogs", require("./routes/motivationalBlogs"));
 app.use("/healthexercises", require("./routes/healthExercises"));
 app.use("/motivationalvideos", require("./routes/motivationalVideos"));
-// app.use("/comments", require("./routes/comments"));
 app.use("/pendingAccounts", require("./routes/pendingAccounts"));
 app.use("/makePayment", require("./routes/makePayments"));
 app.use("/writeSuccessStory", require("./routes/Patient/writeSuccessStory"));

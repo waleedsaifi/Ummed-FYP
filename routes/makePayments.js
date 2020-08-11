@@ -6,7 +6,7 @@ const MakePayments = mongoose.model("MakePayment");
 const PsychologistsBookSlots = mongoose.model("PsychologistsBookSlots");
 const CreateSession = mongoose.model("CreateSessions");
 const SystemAccount = mongoose.model("SystemAccount");
-const MeetingDetails = mongoose.model("MeetingDetails");
+
 
 router.post("/checkslots/:psychologistId", async (req, res, next) => {
 
@@ -153,9 +153,6 @@ router.put("/pending/:paymentId", async (req, res) => {
     },
         { paymentStatus: "approved" },
         { new: true, })
-
-
-
         
     console.log(updatestatus);
 
