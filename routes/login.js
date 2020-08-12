@@ -9,8 +9,9 @@ router.post("/", async (req, res) => {
   const person = await Signup.findOne({
     email: req.body.email
   });
-  console.log(person.accountStatus)
-  if (!person) return res.status(400).send("No account registered against the inserted Email Address");
+
+  console.log(person, 'person')
+  if (person==null) return res.status(400).send("No account registered against the inserted Email Address");
 
   if (person.accountStatus == "pending") return res.send("Your account will be approved after Admin's Verification");
   if (person.accountStatus == "Blocked") return res.send("Your account has been blocked");

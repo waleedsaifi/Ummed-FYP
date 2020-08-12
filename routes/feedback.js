@@ -77,7 +77,7 @@ router.get("/psychologists/topRated", async (req, res) => {
 
     // const person = await Signup.find({ psychologistRatings: { $gte: 2 } });
     // res.send(person)
-    Signup.find({ psychologistRatings: { $gte: 2 } })
+    Signup.find({ psychologistRatings: { $gte: 4 } })
         //     .populate('patientId', 'name email')
         .exec()
         .then(docs => {
